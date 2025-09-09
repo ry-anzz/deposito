@@ -1,0 +1,18 @@
+// firebase.js
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCksakM7R92X8OqswRP-i6_g-8lyinIhog",
+  authDomain: "nota-2f865.firebaseapp.com",
+  projectId: "nota-2f865",
+  storageBucket: "nota-2f865.firebasestorage.app",
+  messagingSenderId: "469654256985",
+  appId: "1:469654256985:web:d71ac96ef0d6b642abe048",
+  measurementId: "G-JC6XH9YW6C"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+export { db };

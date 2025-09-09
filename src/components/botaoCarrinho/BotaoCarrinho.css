@@ -1,0 +1,76 @@
+/* src/components/botaoCarrinho/BotaoCarrinho.css */
+
+.botao-carrinho {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .icone-carrinho {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .icone-carrinho:hover {
+    transform: scale(1.1);
+  }
+  
+  .contador {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+  }
+  
+  /* Ajuste o texto hover para ficar centralizado bem acima da imagem */
+  .hover-text {
+    position: absolute;
+    bottom: 140%; /* Ajuste essa posição conforme necessário */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  
+  .botao-carrinho:hover .hover-text {
+    opacity: 1;
+  }
+  
+  @media (max-width: 900px) {
+    .icone-carrinho {
+      width: 80px; /* Diminui o tamanho do ícone */
+      height: 80px;
+    }
+  
+    .contador {
+      width: 16px; /* Diminui o tamanho do contador */
+      height: 16px;
+      font-size: 0.7rem; /* Diminui a fonte do contador */
+    }
+  
+    .hover-text {
+      font-size: 0.7rem; /* Diminui a fonte do texto hover */
+      bottom: 130%; /* Ajuste a posição para que o texto de hover fique mais perto */
+    }
+  }

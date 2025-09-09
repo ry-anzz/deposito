@@ -1,0 +1,216 @@
+/* DestaqueVinho.css - VERSÃO CORRIGIDA */
+
+/* --- Container Principal --- */
+.vinho-container {
+  background-color: #f6f3ee;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+/* --- Título da Seção (Estilo Moderno) --- */
+.vinho-container h1 {
+  color: #6b3224;
+  font-size: 5.5rem; /* Este agora será o tamanho padrão para telas grandes */
+  font-weight: 600;
+  font-family: "Niagara Engraved", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  position: relative;
+  padding-bottom: 15px;
+  /* Removido text-align: start e margin-left para usar o do container pai (center) */
+}
+
+/* Linha decorativa abaixo do título */
+.vinho-container h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  
+  /* CORREÇÃO: Centraliza a linha corretamente */
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 400px; /* Largura da linha */
+  height: 3px;
+  background-color: #6b3224;
+  border-radius: 2px;
+}
+
+/* --- Card de Produto --- */
+.vinho-produto-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 250px;
+  height: 400px;
+  background: rgb(255, 255, 255);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  margin: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vinho-produto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Imagem do Produto */
+.vinho-produto-imagem-container {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.vinho-produto-imagem {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  margin: auto;
+}
+
+/* Nome do Produto */
+.vinho-produto-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 10px 0;
+  text-align: center;
+  line-height: 1.3;
+  width: 100%;
+}
+
+/* Preço do Produto */
+.vinho-produto-card p {
+  font-size: 1.25rem;
+  color: #e67e22;
+  font-weight: bold;
+  margin-top: 5px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* --- Botão Principal (Adicionar) - Padrão Moderno --- */
+.vinho-produto-card button {
+  padding: 12px 25px;
+  background-color: #6b3624;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  margin-top: auto;
+}
+
+.vinho-produto-card button:hover {
+  background-color: #8c5a4d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* --- Botão Secundário (Ver Mais) - Estilo Outline --- */
+.ver-mais {
+  margin-top: 40px;
+  background-color: transparent;
+  color: #6b3224;
+  border: 2px solid #6b3224;
+  border-radius: 50px;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.ver-mais:hover {
+  background-color: #6b3224;
+  color: #ffffff;
+}
+
+/* --- Ajustes do Slick Carousel --- */
+.slick-list {
+  margin: 0 -10px;
+}
+.slick-slide > div {
+  padding: 0 10px;
+}
+
+/* --- Media Queries Corrigidas --- */
+
+/* Telas de Tablet */
+@media (max-width: 768px) {
+  .vinho-produto-card {
+    width: 80%;
+    height: auto;
+  }
+  .vinho-produto-imagem-container {
+    width: 100%;
+    height: 250px;
+  }
+  .vinho-container h1 {
+    font-size: 3.5rem; /* Tamanho ajustado para tablets */
+  }
+  .vinho-container h1::after {
+      width: 250px; /* Linha menor para tablets */
+  }
+}
+
+/* Telas de Celular */
+@media (max-width: 468px) {
+  .vinho-container {
+      padding: 40px 15px;
+  }
+  .vinho-produto-card {
+    width: 95%;
+    height: auto;
+  }
+  .vinho-produto-imagem-container {
+    width: 100%;
+    height: 180px;
+  }
+  .vinho-container h1 {
+    font-size: 2.8rem; /* Tamanho ajustado para celulares */
+  }
+  .vinho-container h1::after {
+      width: 150px; /* Linha menor para celulares */
+  }
+}
+
+/* CORREÇÃO: Removidas as regras de font-size que estavam sobrescrevendo a principal */
+@media (min-width: 1500px) {
+  .vinho-produto-card {
+    width: 300px;
+    height: 700px;
+  }
+  .vinho-produto-imagem-container {
+    margin-bottom: 100px;
+    height: 350px;
+  }
+  /* REMOVIDO: .vinho-container h1 { font-size: 2.5rem; } */
+}
+
+@media (min-width: 4500px) {
+  .vinho-produto-card {
+    width: 700px;
+    height: 1500px;
+  }
+  .vinho-produto-imagem-container {
+    margin-bottom: 100px;
+    height: 1250px;
+  }
+  /* REMOVIDO: .vinho-container h1 { font-size: 2.5rem; } */
+}

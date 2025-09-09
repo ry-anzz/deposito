@@ -1,0 +1,137 @@
+@import url('https://fonts.cdnfonts.com/css/niagara-engraved?styles=17862');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
+
+.espumante-container {
+    padding: 0px;
+    margin: 0;
+    text-align: center;
+    background-image: url('../../assets/fundo02.png'); /* Caminho absoluto */
+}
+
+
+
+.titulo-espumante {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../../assets/espumante.png');
+    background-size: cover;
+    background-position: right;
+    background-repeat: no-repeat;
+    width: 100%;
+    margin-top: 0px;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.espumantes-lista {
+    display: flex;
+    flex-wrap: wrap; /* Permite quebrar os itens na horizontal */
+    gap: 20px; /* Espaçamento entre os cards */
+    justify-content: center; /* Centraliza os cards */
+}
+
+.espumante-card {
+    flex: 1 1 300px; /* Cada card ocupa no mínimo 300px, ajusta conforme a tela */
+    max-width: 300px; /* Limita a largura máxima dos cards */
+    height: 400px; /* Define uma altura fixa para os cards */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column; /* Alinha os itens verticalmente */
+    justify-content: space-between; /* Espaça os itens dentro do card */
+    align-items: center; /* Centraliza horizontalmente os itens */
+    background-color: #f9f9f9;
+    transition: transform 0.3s;
+}
+
+.espumante-card:hover {
+    transform: scale(1.05);
+}
+
+.espumante-imagem {
+    width: 100%; /* Imagem ocupa toda a largura disponível */
+    height: 150px; /* Altura fixa para uniformizar o tamanho */
+    object-fit: contain; /* Garante que a imagem seja exibida inteira sem cortes */
+    border-radius: 8px;
+    background-color: #fff; /* Adiciona fundo para imagens menores */
+}
+
+.espumante-nome {
+    font-size: 18px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.espumante-preco {
+    color: red;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.espumante-botao {
+    padding: 10px 15px;
+    background-color: #8a2b2b;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.espumante-botao:hover {
+    background-color: #6b1e1e;
+}
+
+.titulo-espumante .h1espumante {
+    font-family: 'Niagara Engraved', sans-serif;
+    font-size: 10rem;  /* Tamanho da fonte */
+    color: #5e2129; /* Cor vinho */
+    letter-spacing: 0.2em; /* Espaço entre as letras */
+    text-align: start;
+}
+
+.pespumante {
+    font-family: 'Roboto Slab', serif; /* Fonte personalizada */
+    font-size: 1rem;  /* Ajuste o tamanho conforme necessário */
+    color: #489fb3;   /* Cor espumante */
+    letter-spacing: 0.1em; /* Espaço entre as letras, ajuste conforme necessário */
+    text-align: start;
+}
+
+@media (max-width: 768px) {
+   
+
+    .pespumante {
+        margin-left: 70px;
+        text-align: center;
+    }
+
+    .titulo-espumante {
+        height: 50vh;
+        width: 100%;
+        margin-left: -30px;
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        background-size: 160% 140%; /* A imagem será ajustada para 100% da largura e altura */
+        background-position: center;
+    }
+
+    .titulo-espumante .h1espumante {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin-left: 70px;
+        margin-top: 100px;
+    }
+
+    
+}

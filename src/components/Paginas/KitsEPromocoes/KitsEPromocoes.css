@@ -1,0 +1,228 @@
+.produtos-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centraliza os cards horizontalmente */
+  gap: 20px; /* Espaçamento entre os cards */
+  padding: 20px; /* Espaçamento interno */
+  background-color: #F6F3EE;
+}
+
+.produto-card {
+  flex: 0 0 300px;  /* Define o tamanho fixo do card */
+  display: flex;
+  flex-direction: column; /* Empilha o conteúdo do card verticalmente */
+  text-align: center;
+  background: rgb(255, 255, 255);
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: 420px; /* Ajuste da altura do card */
+  transition: transform 0.3s ease-in-out; /* Animação suave para o hover */
+  border: 1px solid rgba(0, 0, 0, 0.2); /* Borda preta suave */
+}
+
+.produto-card:hover {
+  transform: scale(1.05); /* Aumenta um pouco o card ao passar o mouse */
+}
+
+.produto-imagem {
+  width: 100%;  /* A imagem ocupa toda a largura do card */
+  height: 180px;  /* Altura da imagem ajustada */
+  object-fit: contain;  /* Ajuste da imagem sem cortar */
+  border-radius: 8px;
+  margin-bottom: 10px;  /* Espaçamento entre a imagem e o conteúdo abaixo */
+}
+
+.produto-info {
+  display: flex;
+  flex-direction: column;  /* Empilha o conteúdo do card verticalmente */
+  align-items: center;  /* Centraliza os itens dentro do card */
+  justify-content: space-between;  /* Espaçamento igual entre os itens */
+  height: 100%;  /* Faz com que o conteúdo ocupe o restante da altura */
+}
+
+.produto-info p {
+  color: #dc1a1a;
+  font-weight: 600;
+}
+
+button {
+  width: 150px;
+  padding: 10px 15px;
+  margin-top: 10px;  /* Distância ajustada entre o conteúdo e o botão */
+  background-color: #6b3624;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s, transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
+}
+
+button:hover {
+  background-color: #8c5a4d;
+}
+
+button:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+
+button:focus {
+  outline: none;
+}
+
+.teste{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.produto-preco {
+  font-size: 1.2em;  /* Aumenta o tamanho da fonte do preço */
+  color: #fc0000f1;  /* Cor do texto do preço */
+  font-weight: bold;  /* Torna o preço em negrito */
+}
+
+.produto-categoria {
+  font-size: 1em;  /* Ajusta o tamanho da fonte da categoria */
+  color: #d1b723;  /* Cor da categoria */
+  margin-top: 5px;  /* Distância entre a categoria e o nome do produto */
+  font-style: italic;  /* Torna o texto da categoria em itálico */
+}
+
+
+.categoria-titulo{
+  font-size: 48px;
+  color: 8c5a4d;
+  margin-top: 100px;
+}
+
+
+.especial{
+  background-color: #d1b723;
+}
+
+.botons00 {
+  height: 50px;
+  text-align: center;
+  padding: 0;
+}
+
+.botons01 {
+  height: 50px;
+  text-align: center;
+  padding: 0;
+}
+
+.pbotao {
+  font-size: 13px;
+  padding: 0;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .produto-card {
+    width: 90%;  /* Ajusta a largura do card para telas menores */
+    max-width: 400px;  /* Limita a largura máxima */
+  }
+
+  .produto-imagem {
+    height: 180px;  /* Ajusta a altura da imagem para dispositivos menores */
+  }
+
+  .botons00 {
+    width: 150px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 600px) {
+  .produtos-container {
+    justify-content: center;  /* Centraliza os cards para telas ainda menores */
+  }
+
+  .produto-card {
+    width: 100%;  /* Faz os cards ocuparem toda a largura em telas menores */
+    max-width: none;  /* Remove a largura máxima */
+  }
+}
+
+
+
+
+
+
+
+.swiper-slide button {
+  margin: 0 5px; /* Margem horizontal de 20px (esquerda e direita) */
+  padding: 1px 1px;
+  background-color: #6b3624;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
+}
+
+.swiper-slide button:hover {
+  background-color: #8c5a4d;
+}
+
+.swiper-slide button:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+
+
+
+@media (max-width: 600px) {
+  .swiper-slide button {
+    margin: 0 10px; /* Reduz o espaço entre os botões */
+    padding: 8px 10px; /* Ajusta o padding dos botões */
+    font-size: 0.9em; /* Reduz um pouco o tamanho da fonte */
+  }
+}
+
+
+.categoria-titulo01 {
+  text-align: center;
+}
+
+.gelo{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.kitdestilado{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(201, 199, 198);
+  width: 80%;
+}
+
+.chirrasco-kit-button01 {
+  
+}
+
+
+.h11 { 
+  color: #6b3624;
+  margin: 50px;
+}
+
+
+
+.produtos-container .produto-card {
+  background: #FFFFFF !important;
+}
+
+
+.nome-produto{
+  font-size: 18px;
+  text-transform: uppercase;
+}

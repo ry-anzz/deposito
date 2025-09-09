@@ -1,0 +1,123 @@
+/* components/contato/Contato.css */
+
+.contato-container {
+  display: flex;
+  justify-content: center; /* Alinha o conteúdo ao centro */
+  align-items: flex-start; /* Alinha no topo */
+  padding: 20px;
+  background-color: #f9f9f9; /* Fundo claro */
+  gap: 40px; /* Maior espaço entre seções */
+}
+
+.contato-section {
+  text-align: left; /* Alinhar textos ao início */
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #ffffff; /* Fundo branco para destaque */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Leve sombra */
+}
+
+.primeira, .segunda {
+  width: 45%; /* As duas primeiras seções ocupam 45% da largura */
+}
+
+.terceira {
+  width: 30%; /* A terceira seção ocupa um terço da largura */
+}
+
+h2 {
+  color: #6b3624;
+  margin-bottom: 15px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.contato-info p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  color: #333333;
+  margin: 10px 0;
+}
+
+.contato-info img {
+  width: 24px; /* Ícones levemente maiores */
+}
+
+.localize-mapas {
+  width: 24px;
+}
+
+.contato-mapa iframe {
+  width: 100%;
+  height: 450px;
+  border: 0;
+  border-radius: 8px;
+}
+
+.contato-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Espaçamento uniforme entre inputs */
+  align-items: center; /* Inputs alinhados à esquerda */
+  justify-content: center;
+}
+
+.contato-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  color: #6b3624;
+}
+
+.contato-form input,
+.contato-form textarea {
+  width: 500px; /* Inputs ocupam toda a largura disponível */
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.contato-form textarea {
+  width: 500px;
+  height: 150px;
+  resize: none; /* Remover redimensionamento */
+}
+
+.contato-form button {
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #6b3624;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contato-form button:hover {
+  background-color: #5a2e20;
+}
+
+@media (max-width: 768px) {
+  .contato-container {
+    flex-direction: column; /* Torna a disposição das seções vertical em telas pequenas */
+    align-items: center;
+  }
+
+  .primeira, .segunda, .terceira {
+    width: 90%; /* Ocupa 90% da largura no mobile */
+  }
+
+  .contato-mapa iframe {
+    height: 300px;
+  }
+
+  .contato-form input,
+  .contato-form textarea {
+    max-width: 200px; /* Inputs ocupam toda a largura no mobile */
+  }
+}

@@ -1,0 +1,73 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #6b3624; /* Cor de fundo */
+  padding: 10px;
+
+  width: 100%;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 18%; /* Distância das bordas esquerda e direita */
+}
+
+/* Div com localização e email à esquerda */
+.contact-info {
+  display: flex;
+  gap: 40px; /* Espaço entre os blocos de ícone + texto */
+}
+
+.div01,
+.div02 {
+  display: flex;
+  align-items: center; /* Alinha ícone e texto na mesma linha */
+}
+
+.navbar img {
+  width: 20px; /* Tamanho do ícone */
+  height: 20px;
+  filter: invert(100%); /* Deixa o ícone branco */
+}
+
+.navbar p {
+  color: white; /* Cor do texto */
+  font-size: 14px; /* Tamanho da fonte */
+  margin-left: 8px; /* Espaço entre ícone e texto */
+  line-height: 20px; /* Alinha verticalmente o texto com a imagem */
+}
+
+/* Ícone do Instagram à direita com espaço da borda */
+.instagram-icon a {
+  display: flex;
+  margin-right: 20px; /* Espaço da borda direita */
+  text-decoration: none;
+}
+
+
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* Muda a direção para coluna em telas menores */
+    align-items: flex-start; /* Alinha itens à esquerda */
+    padding:0 0 0 25%; /* Ajusta o padding */
+  }
+
+  .contact-info {
+    flex-direction: column; /* Alinha ícones e texto em coluna */
+    gap: 10px; /* Espaço reduzido entre ícones e textos */
+  }
+
+  .instagram-icon {
+    margin-right: 0; /* Remove margem à direita */
+    margin-top: 10px; /* Adiciona margem em cima para espaçamento */
+  }
+
+  .navbar p{
+    font-size: 10px;
+  }
+}

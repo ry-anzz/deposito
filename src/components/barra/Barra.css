@@ -1,0 +1,32 @@
+.barra {
+    display: flex;
+    width: 80%;
+    height: 10vh;
+    background-color: #6b3624;
+    justify-content: center;
+    align-items: center;
+    margin: -5vh auto;
+    position: relative;
+    
+    z-index: 1;
+}
+
+.barra div {
+    display: flex;
+    align-items: center;
+    color: white;
+    margin: 0 4%; /* Aumenta o espaçamento entre cada div */
+}
+
+.barra img {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+    filter: brightness(0) invert(1); /* Torna o ícone branco */
+}
+
+@media (max-width: 1170px) {
+    .barra {
+        display: none;
+    }
+}

@@ -1,0 +1,173 @@
+/* #6b3624 */
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+/* --- LAYOUT PRINCIPAL --- */
+/* Em Navsbars.css */
+
+.header-container {
+    position: fixed;  
+    top: 0;            
+    left: 0;        
+    width: 100%;   
+    z-index: 1000;     
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 10px 4%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+   
+    box-sizing: border-box; 
+}
+
+.logo-container{
+  margin-right: 80px;
+}
+
+.logo-img {
+  width: 100px;
+  height: auto;
+  display: block;
+  border-radius: 3rem;
+}
+
+.navsbars {
+  width: 100%;
+}
+
+/* --- CORREÇÕES CRÍTICAS DO SWIPER --- */
+.swiper {
+  overflow: visible !important;
+}
+
+.swiper-wrapper {
+  overflow: visible;
+  /* Adicionado para garantir o alinhamento vertical dos links */
+  align-items: center;
+}
+
+.swiper-slide.nav-slide {
+  width: auto;
+  z-index: 1;
+}
+
+.swiper-slide.dropdown-active {
+  z-index: 20 !important;
+}
+/* --- FIM DAS CORREÇÕES CRÍTICAS --- */
+
+/* --- ESTILO DOS LINKS --- */
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  position: relative;
+  display: block;
+  /* AUMENTE O SEGUNDO VALOR (padding lateral) PARA ESPAÇAR O TEXTO */
+  padding: 8px 20px; /* Estava 8px 4px */
+  font-size: 20px;
+  font-weight: 500;
+  color: #6b3624;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+/* --- EFEITO HOVER COM LINHA --- */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #6b3624; /* Usando a cor que você indicou */
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  transform: scaleX(1);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #6b3624; /* Usando a cor que você indicou */
+}
+
+/* --- DROPDOWNS --- */
+.dropdown-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  
+}
+
+.arrow {
+  display: inline-block;
+  border: solid #000000; /* Cor inicial da seta */
+  border-width: 0 2px 2px 0;
+  padding: 2.5px;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  border-color: #6b3624;
+}
+
+.dropdown-toggle:hover .arrow {
+  border-color: #6b3624; /* Usando a cor que você indicou no hover */
+}
+
+.dropdown-menu {
+  display: block;
+  position: absolute;
+  top: calc(100% + 15px);
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background-color: #fff;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  min-width: 220px;
+  z-index: 1000;
+  padding: 8px 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.dropdown-item {
+  display: block;
+  padding: 10px 20px;
+  color: #343a40;
+  text-decoration: none;
+  font-size: 18px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #6b3624; /* Usando a cor que você indicou */
+}
+
+/* Ajustes para telas menores */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .logo-container {
+    margin-right: 0;
+  }
+}

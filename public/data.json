@@ -1,0 +1,100 @@
+[
+    {
+        "nome": "Arroz Branco 1kg",
+        "preco": 5.99,
+        "categoria": "Alimentos",
+        "descricao": "Arroz branco de qualidade, ideal para todas as suas receitas.",
+        "imagem": "/img-produtos/ArrozBranco.webp"
+    },
+    {
+        "nome": "Feijão Preto 1kg",
+        "preco": 7.49,
+        "categoria": "Alimentos",
+        "descricao": "Feijão preto, rico em proteínas e perfeito para o feijão tropeiro.",
+        "imagem": "/img-produtos/feijão.jpeg"
+    },
+    {
+        "nome": "Macarrão Espaguete 500g",
+        "preco": 3.99,
+        "categoria": "Alimentos",
+        "descricao": "Espaguete clássico, ideal para molhos variados.",
+        "imagem": "/img-produtos/macarrão.jpeg"
+    },
+    {
+        "nome": "Açúcar Cristal 1kg",
+        "preco": 4.29,
+        "categoria": "Alimentos",
+        "descricao": "Açúcar cristal, perfeito para adoçar suas receitas.",
+        "imagem": "/img-produtos/AcucarCristal.webp"
+    },
+    {
+        "nome": "Leite Integral 1L",
+        "preco": 3.59,
+        "categoria": "Laticínios",
+        "descricao": "Leite integral fresco, fonte de cálcio e vitaminas.",
+        "imagem": "/img-produtos/leite.jpeg"
+    },
+    {
+        "nome": "Queijo Prato 200g",
+        "preco": 9.99,
+        "categoria": "Laticínios",
+        "descricao": "Queijo prato cremoso, ideal para sanduíches e lanches.",
+        "imagem": "/img-produtos/queijo.jpeg"
+    },
+    {
+        "nome": "Óleo de Soja 900ml",
+        "preco": 6.99,
+        "categoria": "Condimentos",
+        "descricao": "Óleo de soja, ideal para frituras e preparações culinárias.",
+        "imagem": "/img-produtos/Oleo.webp"
+    },
+    {
+        "nome": "Cerveja Pilsen 350ml",
+        "preco": 4.50,
+        "categoria": "Bebidas",
+        "descricao": "Cerveja Pilsen, refrescante e saborosa.",
+        "imagem": "/img-produtos/ceveja.jpeg"
+    },
+    {
+        "nome": "Bebida 1",
+        "preco": 15.00,
+        "categoria": "Bebidas",
+        "descricao": "Descrição padrão da bebida.",
+        "imagem": "/img-produtos/bebida02.png"
+    },
+    {
+        "nome": "Bebida 2",
+        "preco": 25.50,
+        "categoria": "Bebidas",
+        "descricao": "Descrição padrão da bebida.",
+        "imagem": "/img-produtos/bebida03.png"
+    },
+    {
+        "nome": "Bebida 3",
+        "preco": 35.00,
+        "categoria": "Bebidas",
+        "descricao": "Descrição padrão da bebida.",
+        "imagem": "/img-produtos/bebida04.png"
+    },
+    {
+        "nome": "Bebida 4",
+        "preco": 45.00,
+        "categoria": "Bebidas",
+        "descricao": "Descrição padrão da bebida.",
+        "imagem": "/img-produtos/bebida05.png"
+    },
+    {
+        "nome": "Bebida 5",
+        "preco": 55.00,
+        "categoria": "Bebidas",
+        "descricao": "Descrição padrão da bebida.",
+        "imagem": "/img-produtos/bebida06.png"
+    },
+    {
+        "nome": "Bebida 6",
+        "preco": 65.00,
+        "categoria": "Bebidas",
+        "descricao": "Descrição padrão da bebida.",
+        "imagem": "/img-produtos/bebida07.png"
+    }
+]

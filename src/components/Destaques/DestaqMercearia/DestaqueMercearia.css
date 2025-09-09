@@ -1,0 +1,159 @@
+/* DestaqueMercearia.css - VERSÃO COM CARDS MAIORES */
+
+/* --- Container Principal --- */
+.mercearia-container {
+  background-color: #f8f7f5;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+/* --- Título da Seção (Estilo Coeso) --- */
+.mercearia-container h1 {
+  color: #6b3224;
+  font-size: 5.5rem;
+  font-weight: 600;
+  font-family: "Niagara Engraved", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  position: relative;
+  padding-bottom: 15px;
+  
+}
+
+.mercearia-container h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 3px;
+  background-color: #6b3224;
+  border-radius: 2px;
+}
+
+/* --- Card de Produto (MAIOR E MAIS IMPACTANTE) --- */
+.mercearia-produto-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  /* AJUSTE 1: Dimensões AUMENTADAS para mais destaque */
+  width: 300px; /* Aumentado de 250px */
+  height: 460px; /* Aumentado de 380px */
+
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mercearia-produto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Imagem do Produto */
+.mercearia-produto-imagem-container {
+  width: 100%;
+
+  /* AJUSTE 2: Imagem maior, proporcional ao novo card */
+  height: 220px; /* Aumentado de 180px */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.mercearia-produto-imagem {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Nome do Produto */
+.mercearia-produto-card h3 {
+  /* AJUSTE 3: Fonte um pouco maior */
+  font-size: 1.2rem; /* Aumentado de 1.1rem */
+  font-weight: 600;
+  color: #333;
+  margin: 15px 0 5px 0; /* Margem aumentada */
+  line-height: 1.4;
+  min-height: 50px;
+}
+
+/* Preço do Produto */
+.mercearia-produto-card p {
+  /* AJUSTE 4: Fonte um pouco maior */
+  font-size: 1.3rem; /* Aumentado de 1.25rem */
+  color: #e67e22;
+  font-weight: bold;
+  margin: 5px 0 15px 0; /* Margem aumentada */
+}
+
+/* --- Botão Principal (Adicionar) - Padrão Moderno --- */
+.mercearia-produto-card button {
+  /* AJUSTE 5: Botão mais robusto */
+  padding: 14px 30px; /* Aumentado de 12px 25px */
+  background-color: #6b3224;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  margin-top: auto;
+}
+
+.mercearia-produto-card button:hover {
+  background-color: #8c5a4d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* --- Botão Secundário (Ver Mais) - Estilo Outline --- */
+.mercearia-ver-mais-button {
+  margin-top: 40px;
+  background-color: transparent;
+  color: #6b3224;
+  border: 2px solid #6b3224;
+  border-radius: 50px;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.mercearia-ver-mais-button:hover {
+  background-color: #6b3224;
+  color: #ffffff;
+}
+
+/* --- Ajustes do Slick Carousel --- */
+
+/* --- Responsividade Simplificada --- */
+@media (max-width: 1024px) {
+  .mercearia-produto-card {
+    width: 280px; /* Ajusta o tamanho para telas de tablet */
+    height: auto;
+  }
+}
+@media (max-width: 768px) {
+  .mercearia-container h1 {
+    font-size: 1.8rem;
+  }
+  .mercearia-produto-card {
+    height: auto;
+  }
+}
