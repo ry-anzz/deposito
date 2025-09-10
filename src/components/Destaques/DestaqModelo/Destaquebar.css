@@ -4,9 +4,22 @@
 
 
 .destaque-bar-container {
-  background-color: #6b3624;
+  background-color: #f6f3ee;
   padding: 8vh 20px 40px 20px;
   text-align: center;
+}
+
+.destaque-bar-container h1 {
+  color: #6b3624;
+  font-size: 5.5rem; /* Este agora será o tamanho padrão para telas grandes */
+  font-weight: 600;
+  font-family: "Niagara Engraved", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  position: relative;
+  padding-bottom: 15px;
+  /* Removido text-align: start e margin-left para usar o do container pai (center) */
 }
 
 /* Card de Produto dentro do Destaquebar */
@@ -96,10 +109,10 @@
 
 /* Botão Ver Mais */
 .destaque-ver-mais-button {
-  margin-top: 40px; /* Mais distância dos cards */
-  background-color: transparent; /* Fundo transparente */
-  color: #ffffff; /* Texto branco */
-  border: 2px solid #ffffff; /* Borda branca */
+ margin-top: 40px;
+  background-color: transparent;
+  color: #6b3224;
+  border: 2px solid #6b3224;
   border-radius: 50px;
   padding: 12px 30px;
   cursor: pointer;
@@ -111,8 +124,8 @@
 
 /* Hover no Botão Ver Mais */
 .destaque-ver-mais-button:hover {
-  background-color: #ffffff; /* Fundo preenche de branco */
-  color: #6b3624; /* Texto fica com a cor primária */
+background-color: #6b3224;
+  color: #ffffff;
 }
 
 /* Responsividade */

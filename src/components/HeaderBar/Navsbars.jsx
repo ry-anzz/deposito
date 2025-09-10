@@ -1,4 +1,4 @@
-// Navsbars.js
+// Navsbars.js - VERSÃO ATUALIZADA COM BARRA DE CUPOM
 
 import React, { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -7,10 +7,9 @@ import "swiper/css";
 import logo from "../../assets/logo.png";
 import "./Navsbars.css";
 
-// Estrutura de dados (a mesma de antes)
+// Estrutura de dados para os links
 const navLinks = [
   { text: "Home", to: "/" },
-
   {
     text: "Bebidas",
     isDropdown: true,
@@ -23,8 +22,6 @@ const navLinks = [
       { text: "Energéticos", to: "/energeticos" },
     ],
   },
-  
-  
   {
     text: "Promoções e Kits",
     isDropdown: true,
@@ -41,16 +38,13 @@ const navLinks = [
 ];
 
 const Navsbars = () => {
-  // Estado para controlar qual dropdown está aberto (pelo seu índice)
   const [openDropdown, setOpenDropdown] = useState(null);
   const navRef = useRef(null);
 
   const handleDropdownToggle = (index) => {
-    // Se o dropdown clicado já estiver aberto, feche-o. Senão, abra-o.
     setOpenDropdown(openDropdown === index ? null : index);
   };
 
-  // Efeito para fechar o dropdown ao clicar fora
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (navRef.current && !navRef.current.contains(event.target)) {
@@ -64,70 +58,94 @@ const Navsbars = () => {
   }, []);
 
   return (
+    // O ref foi movido para o container principal do header
     <header className="header-container" ref={navRef}>
-      <div className="logo-container">
-        <NavLink to="/">
-          <img src={logo} alt="Logo" className="logo-img" />
-        </NavLink>
-      </div>
+      {/* ===== INÍCIO DA NOVA BARRA DE CUPOM ===== */}
 
-      <nav className="navsbars">
-        <Swiper
-          slidesPerView="auto"
-          spaceBetween={55}
-          grabCursor={true}
-          // Adicione esta linha para garantir que os cliques funcionem melhor
-          preventClicks={false}
-        >
-          {navLinks.map((link, index) => (
-            // A mudança principal está aqui: adicionamos uma classe dinâmica
-            <SwiperSlide
-              key={index}
-              className={`nav-slide ${
-                openDropdown === index ? "dropdown-active" : ""
-              }`}
-            >
-              {link.isDropdown ? (
-                <div className="nav-item dropdown">
-                  <span
-                    className="nav-link dropdown-toggle"
-                    onClick={() => handleDropdownToggle(index)}
-                  >
-                    {link.text} <span className="arrow"></span>
-                  </span>
-                  <div
-                    className={`dropdown-menu ${
-                      openDropdown === index ? "show" : ""
-                    }`}
-                  >
-                    {link.subLinks.map((subLink, subIndex) => (
-                      <NavLink
-                        key={subIndex}
-                        to={subLink.to}
-                        className="dropdown-item"
-                        onClick={() => setOpenDropdown(null)}
-                      >
-                        {subLink.text}
-                      </NavLink>
-                    ))}
+
+{/* ===== INÍCIO DA BARRA DE CUPOM ===== */}
+<div className="coupon-bar">
+  {/* AGORA TEMOS DUAS DIVS IGUAIS, CADA UMA COM SEUS SPANS */}
+  <div className="coupon-text">
+    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
+    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
+    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
+    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
+  </div>
+  <div className="coupon-text">
+    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
+    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
+    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
+    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
+  </div>
+</div>
+{/* ===== FIM DA BARRA DE CUPOM ===== */}
+      {/* ===== FIM DA NOVA BARRA DE CUPOM ===== */}
+
+      {/* Container para o conteúdo principal da navegação (logo + links) */}
+      <div className="main-nav-content">
+        <div className="logo-container">
+          <NavLink to="/">
+            <img src={logo} alt="Logo" className="logo-img" />
+          </NavLink>
+        </div>
+
+        <nav className="navsbars">
+          <Swiper
+            slidesPerView="auto"
+            spaceBetween={55}
+            grabCursor={true}
+            preventClicks={false}
+          >
+            {navLinks.map((link, index) => (
+              <SwiperSlide
+                key={index}
+                className={`nav-slide ${
+                  openDropdown === index ? "dropdown-active" : ""
+                }`}
+              >
+                {link.isDropdown ? (
+                  <div className="nav-item dropdown">
+                    <span
+                      className="nav-link dropdown-toggle"
+                      onClick={() => handleDropdownToggle(index)}
+                    >
+                      {link.text} <span className="arrow"></span>
+                    </span>
+                    <div
+                      className={`dropdown-menu ${
+                        openDropdown === index ? "show" : ""
+                      }`}
+                    >
+                      {link.subLinks.map((subLink, subIndex) => (
+                        <NavLink
+                          key={subIndex}
+                          to={subLink.to}
+                          className="dropdown-item"
+                          onClick={() => setOpenDropdown(null)}
+                        >
+                          {subLink.text}
+                        </NavLink>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <div className="nav-item">
-                  <NavLink
-                    to={link.to}
-                    className={({ isActive }) =>
-                      isActive ? "nav-link active" : "nav-link"
-                    }
-                  >
-                    {link.text}
-                  </NavLink>
-                </div>
-              )}
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </nav>
+                ) : (
+                  <div className="nav-item">
+                    <NavLink
+                      to={link.to}
+                      className={({ isActive }) =>
+                        isActive ? "nav-link active" : "nav-link"
+                      }
+                    >
+                      {link.text}
+                    </NavLink>
+                  </div>
+                )}
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </nav>
+      </div>
     </header>
   );
 };

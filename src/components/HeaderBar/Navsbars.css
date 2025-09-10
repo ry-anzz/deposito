@@ -1,28 +1,88 @@
-/* #6b3624 */
+/* Navsbars.css - VERSÃO FINAL COM BARRA DE CUPOM */
 
 body {
   font-family: "Poppins", sans-serif;
 }
 
-/* --- LAYOUT PRINCIPAL --- */
-/* Em Navsbars.css */
-
+/* --- LAYOUT PRINCIPAL DO HEADER (AJUSTADO) --- */
 .header-container {
-    position: fixed;  
-    top: 0;            
-    left: 0;        
-    width: 100%;   
-    z-index: 1000;     
-    display: flex;
-    align-items: center;
-    background-color: #ffffff;
-    padding: 10px 4%;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-   
-    box-sizing: border-box; 
+  /* Propriedades para fixar no topo */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+
+  /* AJUSTE: Organiza a barra de cupom e a navegação uma em cima da outra */
+  display: flex;
+  flex-direction: column;
+
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+  /* AJUSTE: Removido o padding para a barra de cupom ocupar 100% da largura */
+  padding: 0;
 }
 
-.logo-container{
+/* No seu Navsbars.css, substitua as regras da barra de cupom por estas */
+
+/* --- BARRA DE CUPOM ANIMADA (CORREÇÃO FINAL DE ALINHAMENTO) --- */
+
+/* Keyframes para a animação de rolagem contínua (esta parte não muda) */
+/* No seu Navsbars.css, substitua as regras da barra de cupom por estas */
+
+/* --- BARRA DE CUPOM ANIMADA (MÉTODO FINAL E ROBUSTO) --- */
+
+@keyframes scroll-text {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Container da barra (a "máscara") */
+.coupon-bar {
+  background-color: #6b3624;
+  color: #ffffff;
+  padding: 8px 0;
+  width: 100%;
+  overflow: hidden;
+  
+  /* Usa flex para alinhar as duas cópias do coupon-text */
+  display: flex;
+  flex-wrap: nowrap; /* Garante que fiquem sempre na mesma linha */
+}
+
+/* Cada um dos dois containers de texto */
+.coupon-text {
+  display: flex;        /* Alinha os spans internos */
+  flex-shrink: 0;       /* Impede que o container encolha */
+  white-space: nowrap;  /* Garante que o texto não quebre linha */
+  
+  /* A animação é aplicada em cada um dos dois containers */
+  animation: scroll-text 40s linear infinite;
+}
+
+.coupon-text span {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 40px; /* Espaçamento visual entre as frases */
+}
+
+/* --- CONTAINER DO CONTEÚDO PRINCIPAL DA NAVEGAÇÃO --- */
+/* Novo container para o logo e os links */
+.main-nav-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 4%; /* Padding que antes estava no header */
+  box-sizing: border-box;
+  background-color: #ffffff; /* Garante fundo branco para esta parte */
+}
+
+.logo-container {
   margin-right: 80px;
 }
 
@@ -44,7 +104,6 @@ body {
 
 .swiper-wrapper {
   overflow: visible;
-  /* Adicionado para garantir o alinhamento vertical dos links */
   align-items: center;
 }
 
@@ -56,9 +115,8 @@ body {
 .swiper-slide.dropdown-active {
   z-index: 20 !important;
 }
-/* --- FIM DAS CORREÇÕES CRÍTICAS --- */
 
-/* --- ESTILO DOS LINKS --- */
+/* --- SEUS ESTILOS DE LINKS E DROPDOWNS (Mantidos) --- */
 .nav-item {
   position: relative;
 }
@@ -66,8 +124,7 @@ body {
 .nav-link {
   position: relative;
   display: block;
-  /* AUMENTE O SEGUNDO VALOR (padding lateral) PARA ESPAÇAR O TEXTO */
-  padding: 8px 20px; /* Estava 8px 4px */
+  padding: 8px 20px;
   font-size: 20px;
   font-weight: 500;
   color: #6b3624;
@@ -76,7 +133,6 @@ body {
   transition: color 0.3s ease;
 }
 
-/* --- EFEITO HOVER COM LINHA --- */
 .nav-link::after {
   content: "";
   position: absolute;
@@ -84,7 +140,7 @@ body {
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #6b3624; /* Usando a cor que você indicou */
+  background-color: #6b3624;
   transform: scaleX(0);
   transform-origin: center;
   transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
@@ -97,30 +153,27 @@ body {
 
 .nav-link:hover,
 .nav-link.active {
-  color: #6b3624; /* Usando a cor que você indicou */
+  color: #6b3624;
 }
 
-/* --- DROPDOWNS --- */
 .dropdown-toggle {
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 6px;
-  
 }
 
 .arrow {
   display: inline-block;
-  border: solid #000000; /* Cor inicial da seta */
+  border: solid #6b3624;
   border-width: 0 2px 2px 0;
   padding: 2.5px;
   transform: rotate(45deg);
   transition: transform 0.3s ease, border-color 0.3s ease;
-  border-color: #6b3624;
 }
 
 .dropdown-toggle:hover .arrow {
-  border-color: #6b3624; /* Usando a cor que você indicou no hover */
+  border-color: #6b3624;
 }
 
 .dropdown-menu {
@@ -157,17 +210,30 @@ body {
 
 .dropdown-item:hover {
   background-color: #f8f9fa;
-  color: #6b3624; /* Usando a cor que você indicou */
+  color: #6b3624;
 }
 
-/* Ajustes para telas menores */
+/* --- AJUSTE RESPONSIVO --- */
 @media (max-width: 768px) {
-  .header-container {
+  .main-nav-content {
     flex-direction: column;
     gap: 15px;
+    padding: 15px 4%; /* Ajusta o padding para mobile */
   }
 
   .logo-container {
     margin-right: 0;
+  }
+}
+
+/* --- ESPAÇADOR PARA CONTEÚDO DA PÁGINA --- */
+/* Adicione esta classe ao container principal do seu conteúdo */
+.page-content-pusher {
+  padding-top: 150px; /* Ajuste este valor se a altura do seu header mudar */
+}
+
+@media (max-width: 768px) {
+  .page-content-pusher {
+    padding-top: 220px; /* Altura maior no mobile pois o header empilha */
   }
 }

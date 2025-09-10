@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 // Importações de componentes
 import { CarrinhoProvider } from "./components/context/CarrinhoContext";
-
+import OfertasRelampago from "./components/Destaques/OfertasRelampago/OfertasRelampago";
 import Destaquebar from "./components/Destaques/DestaqModelo/Destaquebar";
 import DestaqueMercearia from "./components/Destaques/DestaqMercearia/DestaqueMercearia";
 import DestaqueVinho from "./components/Destaques/DestaqVinho/DestaqueVinho";
@@ -81,6 +81,7 @@ const App = () => {
                     <>
                       <Banner />
                       <Barra />
+                      <OfertasRelampago />
                       <Destaquebar />
                       <DestaqueMercearia />
                       <DestaqueVinho />
