@@ -67,16 +67,16 @@ const Navsbars = () => {
 <div className="coupon-bar">
   {/* AGORA TEMOS DUAS DIVS IGUAIS, CADA UMA COM SEUS SPANS */}
   <div className="coupon-text">
-    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
-    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
-    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
-    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
+    <span>BOAS COMPRAS 💰</span>
+    <span>BOAS COMPRAS 💰</span>
+    <span>BOAS COMPRAS 💰</span>
+    <span>BOAS COMPRAS 💰</span>
   </div>
   <div className="coupon-text">
-    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
-    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
-    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
-    <span>CUPOM: BEMVINDO10 - 10% OFF NA PRIMEIRA COMPRA! 💰</span>
+    <span>BOAS COMPRAS 💰</span>
+    <span>BOAS COMPRAS 💰</span>
+    <span>BOAS COMPRAS 💰</span>
+    <span>BOAS COMPRAS 💰</span>
   </div>
 </div>
 {/* ===== FIM DA BARRA DE CUPOM ===== */}

@@ -1,148 +1,112 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCarrinho } from '../../context/CarrinhoContext';
 import supabase from '../../../supabaseClient';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import './Petshop.css'; // se precisar de estilos específicos
+import './Petshop.css';
+
+// --- SUB-COMPONENTE PARA O BOTÃO INTELIGENTE ---
+const BotaoAdicionar = ({ produto }) => {
+  const { carrinho, adicionarAoCarrinho, diminuirQuantidade } = useCarrinho();
+  const itemNoCarrinho = carrinho.find(item => item.id === produto.id);
+
+  if (itemNoCarrinho) {
+    // Se o item já está no carrinho, mostra o controlo de quantidade
+    return (
+      <div className="quantity-control-card">
+        <button onClick={() => diminuirQuantidade(produto.id)}>−</button>
+        <span>{itemNoCarrinho.quantidade}</span>
+        <button onClick={() => adicionarAoCarrinho(produto)}>+</button>
+      </div>
+    );
+  }
+
+  // Se não, mostra o botão "Adicionar"
+  return (
+    <button className="add-to-cart-btn" onClick={() => adicionarAoCarrinho(produto)}>
+      Adicionar
+    </button>
+  );
+};
+
 
 const Petshop = () => {
   const [produtos, setProdutos] = useState([]);
-  const [filtro, setFiltro] = useState('');
-  const [categoriaFiltro, setCategoriaFiltro] = useState('PETSHOP');
-  const [modalProduto, setModalProduto] = useState(null);
-  const [quantidade, setQuantidade] = useState(1);
   const [carregando, setCarregando] = useState(true);
-  const { adicionarAoCarrinho } = useCarrinho();
+  const [filtro, setFiltro] = useState('');
+  
+  // A lógica do modal foi removida
 
   useEffect(() => {
     const fetchProdutos = async () => {
-      const { data, error } = await supabase.from('produtos').select('*');
-      if (!error) setProdutos(data);
-      setCarregando(false);
+      try {
+        const { data, error } = await supabase
+          .from('produtos')
+          .select('*')
+          .eq('category', 'PETSHOP');
+
+        if (error) throw new Error(error.message);
+        setProdutos(data || []);
+      } catch (error) {
+        console.error('Erro ao carregar os produtos do petshop:', error);
+      } finally {
+        setCarregando(false);
+      }
     };
+
     fetchProdutos();
   }, []);
 
-  const abrirModal = (produto) => {
-    setModalProduto(produto);
-    setQuantidade(1);
-  };
-
-  const fecharModal = () => {
-    setModalProduto(null);
-  };
-
-  const confirmarAdicao = () => {
-    if (quantidade > 0) {
-      adicionarAoCarrinho(modalProduto, quantidade);
-      fecharModal();
-    }
-  };
-
-  const handleCategoriaFiltro = (categoria) => {
-    setCategoriaFiltro(categoria);
-  };
-
-  const categoriasPetshop = [
-    'PETSHOP'
-  ];
+  // Funções do modal (abrirModal, fecharModal, etc.) foram removidas
 
   const produtosFiltrados = produtos
-    .filter((produto) => {
-      const matchesName = produto.name.toLowerCase().includes(filtro.toLowerCase());
-      const matchesCategoria = categoriaFiltro
-        ? produto.category.toLowerCase() === categoriaFiltro.toLowerCase()
-        : true;
-      return matchesName && matchesCategoria;
-    })
+    .filter(produto => produto.name.toLowerCase().includes(filtro.toLowerCase()))
     .sort((a, b) => a.name.localeCompare(b.name));
 
   return (
-    <div className="container-banner">
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-        <input
-          type="text"
-          placeholder="Buscar Petshop..."
-          value={filtro}
-          onChange={(e) => setFiltro(e.target.value)}
-          style={{
-            width: '50%',
-            padding: '10px',
-            borderRadius: '5px',
-            border: '1px solid #ccc',
-          }}
-        />
-      </div>
-
-      <div className="swiper-container">
-        <Swiper
-          spaceBetween={0}
-          grabCursor={true}
-          breakpoints={{
-            300: { slidesPerView: 3.5 },
-            800: { slidesPerView: 4.5 },
-            1000: { slidesPerView: 6.5 },
-            1500: { slidesPerView: 15 },
-          }}
-        >
-          {categoriasPetshop.map((categoria, index) => (
-            <SwiperSlide key={index}>
-              <button
-                className={`botons00 ${categoriaFiltro === categoria ? 'ativo' : ''}`}
-                onClick={() => handleCategoriaFiltro(categoria)}
-              >
-                <p className='pbotao'>{categoria.replace('-', ' ')}</p>
-              </button>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-
-      {carregando ? (
-        <p>Carregando produtos...</p>
-      ) : produtosFiltrados.length > 0 ? (
-        <div className="produtos-container">
-          {produtosFiltrados.map((produto, index) => (
-            <div className="produto-card" key={index}>
-              <img className="produto-imagem" src={produto.imagem_url} alt={produto.name} />
-              <div className="produto-info">
-                <h3 className="nome-produto">{produto.name}</h3>
-                <p>Preço: R${produto.price ? produto.price.toFixed(2) : 'Indisponível'}</p>
-                <button onClick={() => abrirModal(produto)}>Adicionar</button>
-              </div>
-            </div>
-          ))}
+    <div className="petshop-page-container">
+      <header className="petshop-header">
+        <div className="petshop-header-content">
+          <h1>Mundo Pet</h1>
+          <p>TUDO QUE SEU MELHOR AMIGO MERECE</p>
         </div>
-      ) : (
-        <p>Nenhum produto encontrado para essa categoria.</p>
-      )}
+      </header>
 
-      {modalProduto && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Adicionar ao Carrinho</h2>
-            <p>{modalProduto.name}</p>
-            <p>Preço: R${modalProduto.price?.toFixed(2) ?? 'Indisponível'}</p>
-            <div className="quantity-container">
-              <label htmlFor="quantidade">Quantidade:</label>
-              <div className="quantity-controls">
-                <button onClick={() => setQuantidade((prev) => Math.max(prev - 1, 1))}>−</button>
-                <input
-                  type="number"
-                  id="quantidade"
-                  value={quantidade}
-                  onChange={(e) => setQuantidade(Math.max(1, parseInt(e.target.value, 10)))}
-                />
-                <button onClick={() => setQuantidade((prev) => prev + 1)}>+</button>
+      <main className="petshop-main-content">
+        <div className="search-bar-container">
+          <input
+            type="text"
+            placeholder="Buscar por ração, brinquedo..."
+            value={filtro}
+            onChange={(e) => setFiltro(e.target.value)}
+            className="petshop-search-input"
+          />
+        </div>
+
+        {carregando ? (
+          <p>Carregando produtos...</p>
+        ) : produtosFiltrados.length > 0 ? (
+          <div className="petshop-grid">
+            {produtosFiltrados.map((produto) => (
+              <div className="petshop-card" key={produto.id}>
+                <div className="petshop-card-image-container">
+                    <img src={produto.imagem_url} alt={produto.name} />
+                </div>
+                <div className="petshop-card-content">
+                    <h3>{produto.name}</h3>
+                    <p className="petshop-preco">
+                      R${produto.price ? produto.price.toFixed(2) : 'Indisponível'}
+                    </p>
+                    {/* O botão antigo foi substituído pelo nosso componente inteligente */}
+                    <BotaoAdicionar produto={produto} />
+                </div>
               </div>
-            </div>
-            <div className="modal-buttons">
-              <button onClick={confirmarAdicao}>Confirmar</button>
-              <button onClick={fecharModal}>Cancelar</button>
-            </div>
+            ))}
           </div>
-        </div>
-      )}
+        ) : (
+          <p className="nenhum-produto">Nenhum produto encontrado.</p>
+        )}
+      </main>
+
+      {/* O JSX do modal foi completamente removido daqui */}
     </div>
   );
 };

@@ -1,228 +1,209 @@
-.produtos-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* Centraliza os cards horizontalmente */
-  gap: 20px; /* Espaçamento entre os cards */
-  padding: 20px; /* Espaçamento interno */
-  background-color: #F6F3EE;
-}
+@import url('https://fonts.cdnfonts.com/css/niagara-engraved?styles=17862');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
 
-.produto-card {
-  flex: 0 0 300px;  /* Define o tamanho fixo do card */
-  display: flex;
-  flex-direction: column; /* Empilha o conteúdo do card verticalmente */
-  text-align: center;
-  background: rgb(255, 255, 255);
-  border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  height: 420px; /* Ajuste da altura do card */
-  transition: transform 0.3s ease-in-out; /* Animação suave para o hover */
-  border: 1px solid rgba(0, 0, 0, 0.2); /* Borda preta suave */
-}
-
-.produto-card:hover {
-  transform: scale(1.05); /* Aumenta um pouco o card ao passar o mouse */
-}
-
-.produto-imagem {
-  width: 100%;  /* A imagem ocupa toda a largura do card */
-  height: 180px;  /* Altura da imagem ajustada */
-  object-fit: contain;  /* Ajuste da imagem sem cortar */
-  border-radius: 8px;
-  margin-bottom: 10px;  /* Espaçamento entre a imagem e o conteúdo abaixo */
-}
-
-.produto-info {
-  display: flex;
-  flex-direction: column;  /* Empilha o conteúdo do card verticalmente */
-  align-items: center;  /* Centraliza os itens dentro do card */
-  justify-content: space-between;  /* Espaçamento igual entre os itens */
-  height: 100%;  /* Faz com que o conteúdo ocupe o restante da altura */
-}
-
-.produto-info p {
-  color: #dc1a1a;
-  font-weight: 600;
-}
-
-button {
-  width: 150px;
-  padding: 10px 15px;
-  margin-top: 10px;  /* Distância ajustada entre o conteúdo e o botão */
-  background-color: #6b3624;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s, transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
-}
-
-button:hover {
-  background-color: #8c5a4d;
-}
-
-button:active {
-  transform: scale(0.95);
-  opacity: 0.8;
-}
-
-button:focus {
-  outline: none;
-}
-
-.teste{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.produto-preco {
-  font-size: 1.2em;  /* Aumenta o tamanho da fonte do preço */
-  color: #fc0000f1;  /* Cor do texto do preço */
-  font-weight: bold;  /* Torna o preço em negrito */
-}
-
-.produto-categoria {
-  font-size: 1em;  /* Ajusta o tamanho da fonte da categoria */
-  color: #d1b723;  /* Cor da categoria */
-  margin-top: 5px;  /* Distância entre a categoria e o nome do produto */
-  font-style: italic;  /* Torna o texto da categoria em itálico */
-}
-
-
-.categoria-titulo{
-  font-size: 48px;
-  color: 8c5a4d;
-  margin-top: 100px;
-}
-
-
-.especial{
-  background-color: #d1b723;
-}
-
-.botons00 {
-  height: 50px;
-  text-align: center;
-  padding: 0;
-}
-
-.botons01 {
-  height: 50px;
-  text-align: center;
-  padding: 0;
-}
-
-.pbotao {
-  font-size: 13px;
-  padding: 0;
-  text-align: center;
-}
-
-@media (max-width: 900px) {
-  .produto-card {
-    width: 90%;  /* Ajusta a largura do card para telas menores */
-    max-width: 400px;  /* Limita a largura máxima */
-  }
-
-  .produto-imagem {
-    height: 180px;  /* Ajusta a altura da imagem para dispositivos menores */
-  }
-
-  .botons00 {
-    width: 150px;
-    height: 50px;
-  }
-}
-
-@media (max-width: 600px) {
-  .produtos-container {
-    justify-content: center;  /* Centraliza os cards para telas ainda menores */
-  }
-
-  .produto-card {
-    width: 100%;  /* Faz os cards ocuparem toda a largura em telas menores */
-    max-width: none;  /* Remove a largura máxima */
-  }
-}
-
-
-
-
-
-
-
-.swiper-slide button {
-  margin: 0 5px; /* Margem horizontal de 20px (esquerda e direita) */
-  padding: 1px 1px;
-  background-color: #6b3624;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
-}
-
-.swiper-slide button:hover {
-  background-color: #8c5a4d;
-}
-
-.swiper-slide button:active {
-  transform: scale(0.95);
-  opacity: 0.8;
-}
-
-
-
-@media (max-width: 600px) {
-  .swiper-slide button {
-    margin: 0 10px; /* Reduz o espaço entre os botões */
-    padding: 8px 10px; /* Ajusta o padding dos botões */
-    font-size: 0.9em; /* Reduz um pouco o tamanho da fonte */
-  }
-}
-
-
-.categoria-titulo01 {
-  text-align: center;
-}
-
-.gelo{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.kitdestilado{
+/* --- Cabeçalho da Página (Banner) --- */
+.mercearia-header {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(https://sennda.com.br/wp-content/uploads/2021/03/pexels-mehrad-vosoughi-3687999-scaled.jpg);
+  height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgb(201, 199, 198);
-  width: 80%;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  color: #F39C12; /* Laranja/Amarelo para mercearia */
+  padding: 20px;
+  text-align: center;
+  box-sizing: border-box;
 }
 
-.chirrasco-kit-button01 {
-  
-}
-
-
-.h11 { 
-  color: #6b3624;
-  margin: 50px;
-}
-
-
-
-.produtos-container .produto-card {
-  background: #FFFFFF !important;
-}
-
-
-.nome-produto{
-  font-size: 18px;
+/* --- Título do Banner --- */
+.mercearia-header-content h1 {
+  position: relative; 
+  font-family: 'Niagara Engraved', sans-serif;
+  font-size: 10rem;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  padding-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
   text-transform: uppercase;
+}
+.mercearia-header-content h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  max-width: 90%;
+  height: 3px;
+  background-color: #F39C12; /* Laranja/Amarelo */
+  border-radius: 2px;
+}
+.mercearia-header-content p {
+  font-family: 'Roboto Slab', serif;
+  font-size: 1rem;
+  color: #ffffff;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+/* --- Conteúdo Principal --- */
+.mercearia-main-content {
+  margin: -40px auto 40px auto;
+  position: relative;
+  z-index: 2;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* --- Barra de Busca e Filtros --- */
+.search-bar-container { margin-bottom: 30px; display: flex; justify-content: center; }
+.mercearia-search-input {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 50%;
+  padding: 15px 20px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 2rem;
+  box-sizing: border-box;
+}
+.category-filterm-container { margin-bottom: 40px; }
+.category-slide { width: auto !important; padding: 5px 0; }
+.category-button {
+  background-color: #ffffff;
+  color: #555;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.category-button:hover {
+  border-color: #6b3624;
+  color: #6b3624;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.category-button.active {
+  background-color: #6b3624;
+  color: #ffffff;
+  border-color: #6b3624;
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 4px 15px rgba(107, 54, 36, 0.3);
+}
+
+/* --- Grade de Produtos --- */
+.mercearia-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 40px; 
+}
+.mercearia-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.mercearia-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+}
+.mercearia-card-image-container {
+  width: 100%;
+  height: 250px;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mercearia-card-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.mercearia-card-content {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: left;
+}
+.mercearia-card-content h3 {
+  font-family: 'Roboto Slab', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #333333;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+  min-height: 55px;
+}
+.mercearia-preco {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #6b3624;
+  margin-bottom: 25px;
+  text-align: right;
+}
+.mercearia-preco::before {
+  content: "R$ ";
+  font-size: 1.5rem;
+  font-weight: 600;
+  vertical-align: middle;
+}
+.mercearia-card-button {
+ margin-top: auto;
+  padding: 15px 30px;
+  background-color: #6b1e1e;
+  color: #ffffff;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(107, 30, 30, 0.3);
+}
+.mercearia-card-button:hover {
+ background-color: #8a2b2b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(138, 43, 43, 0.4);
+}
+
+.nenhum-produto { /* ... */ }
+
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+  .mercearia-header {
+    height: 60vh;
+    margin-bottom: 0;
+  }
+  .mercearia-header-content h1 {
+    font-size: 5rem;
+  }
+  .mercearia-main-content {
+    width: 100%;
+    margin-top: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+  }
+  .mercearia-search-input {
+      width: 90%;
+  }
 }

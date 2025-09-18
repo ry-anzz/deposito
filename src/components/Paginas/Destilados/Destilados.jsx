@@ -1,18 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { useCarrinho } from '../../context/CarrinhoContext';
+import { useCarrinho } from '../../context/CarrinhoContext'; // O contexto agora tem a função abrirModal
 import supabase from '../../../supabaseClient';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import './Destilados.css'; // Usaremos este novo CSS
+import './Destilados.css';
+
+// --- SUB-COMPONENTE PARA O BOTÃO INTELIGENTE ---
+const BotaoAdicionar = ({ produto }) => {
+  const { carrinho, adicionarAoCarrinho, diminuirQuantidade } = useCarrinho();
+  const itemNoCarrinho = carrinho.find(item => item.id === produto.id);
+
+  if (itemNoCarrinho) {
+    // Se o item já está no carrinho, mostra o controlo de quantidade
+    return (
+      <div className="quantity-control-card">
+        <button onClick={() => diminuirQuantidade(produto.id)}>−</button>
+        <span>{itemNoCarrinho.quantidade}</span>
+        <button onClick={() => adicionarAoCarrinho(produto)}>+</button>
+      </div>
+    );
+  }
+
+  // Se não, mostra o botão "Adicionar"
+  return (
+    <button className="add-to-cart-btn" onClick={() => adicionarAoCarrinho(produto)}>
+      Adicionar
+    </button>
+  );
+};
+
 
 const Destilados = () => {
   const [produtos, setProdutos] = useState([]);
   const [filtro, setFiltro] = useState('');
   const [categoriaFiltro, setCategoriaFiltro] = useState('DESTILADOS');
-  const [modalProduto, setModalProduto] = useState(null);
-  const [quantidade, setQuantidade] = useState(1);
   const [carregando, setCarregando] = useState(true);
-  const { adicionarAoCarrinho } = useCarrinho();
+  
+  // A lógica do modal foi removida, o BotaoAdicionar usa o contexto diretamente.
 
   const categoriasDestilados = ['DESTILADOS', 'LICOR', 'CACHAÇA', 'WHISKYS', 'ESPECIARIAS'];
 
@@ -29,22 +53,6 @@ const Destilados = () => {
     fetchProdutos();
   }, []);
 
-  const abrirModal = (produto) => {
-    setModalProduto(produto);
-    setQuantidade(1);
-  };
-
-  const fecharModal = () => {
-    setModalProduto(null);
-  };
-
-  const confirmarAdicao = () => {
-    if (quantidade > 0) {
-      adicionarAoCarrinho(modalProduto, quantidade);
-      fecharModal();
-    }
-  };
-
   const handleCategoriaFiltro = (categoria) => {
     setCategoriaFiltro(categoria);
   };
@@ -59,7 +67,6 @@ const Destilados = () => {
 
   return (
     <div className="destilados-page-container">
-      {/* --- Banner do Topo --- */}
       <header className="destilados-header">
         <div className="destilados-header-content">
           <h1>Destilados</h1>
@@ -67,7 +74,6 @@ const Destilados = () => {
         </div>
       </header>
 
-      {/* --- Conteúdo Principal --- */}
       <main className="destilados-main-content">
         <div className="search-bar-container">
           <input
@@ -98,7 +104,6 @@ const Destilados = () => {
           </Swiper>
         </div>
 
-        {/* Grade de Produtos */}
         {carregando ? (
           <p>Carregando produtos...</p>
         ) : produtosFiltrados.length > 0 ? (
@@ -113,9 +118,8 @@ const Destilados = () => {
                     <p className="destilados-preco">
                       R${produto.price ? produto.price.toFixed(2) : 'Indisponível'}
                     </p>
-                    <button className="destilados-card-button" onClick={() => abrirModal(produto)}>
-                      Adicionar
-                    </button>
+                    {/* O botão antigo foi substituído pelo nosso componente inteligente */}
+                    <BotaoAdicionar produto={produto} />
                 </div>
               </div>
             ))}
@@ -125,28 +129,7 @@ const Destilados = () => {
         )}
       </main>
 
-      {/* Modal */}
-      {modalProduto && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Adicionar ao Carrinho</h2>
-            <p>{modalProduto.name}</p>
-            <p>Preço: R${modalProduto.price?.toFixed(2) ?? 'Indisponível'}</p>
-            <div className="quantity-container">
-              <label htmlFor="quantidade">Quantidade:</label>
-              <div className="quantity-controls">
-                <button onClick={() => setQuantidade((prev) => Math.max(prev - 1, 1))}>−</button>
-                <input type="number" id="quantidade" value={quantidade} onChange={(e) => setQuantidade(Math.max(1, parseInt(e.target.value, 10)))} />
-                <button onClick={() => setQuantidade((prev) => prev + 1)}>+</button>
-              </div>
-            </div>
-            <div className="modal-buttons">
-              <button onClick={confirmarAdicao}>Confirmar</button>
-              <button onClick={fecharModal}>Cancelar</button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* O JSX do modal foi completamente removido daqui */}
     </div>
   );
 };

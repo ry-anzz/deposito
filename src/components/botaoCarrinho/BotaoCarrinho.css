@@ -1,76 +1,135 @@
-/* src/components/botaoCarrinho/BotaoCarrinho.css */
+/* --- Animações --- */
+@keyframes pulse {
+  0% {
+    /* Cor da sua marca para a animação de pulso */
+    box-shadow: 0 0 0 0 rgba(107, 54, 36, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(107, 54, 36, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(107, 54, 36, 0);
+  }
+}
 
-.botao-carrinho {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .icone-carrinho {
-    width: 100px;
-    height: 100px;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  
-  .icone-carrinho:hover {
-    transform: scale(1.1);
-  }
-  
-  .contador {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: red;
-    color: white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-  }
-  
-  /* Ajuste o texto hover para ficar centralizado bem acima da imagem */
-  .hover-text {
-    position: absolute;
-    bottom: 140%; /* Ajuste essa posição conforme necessário */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #333;
-    color: #fff;
-    padding: 5px 8px;
-    border-radius: 5px;
-    font-size: 0.8rem;
+@keyframes pop-in {
+  from {
+    transform: scale(0.5);
     opacity: 0;
-    transition: opacity 0.2s;
-    pointer-events: none;
-    white-space: nowrap;
   }
-  
-  .botao-carrinho:hover .hover-text {
+  to {
+    transform: scale(1);
     opacity: 1;
   }
+}
+
+/* --- Botão Principal Flutuante --- */
+.floating-cart-button {
+  position: fixed;
+  bottom: 30px;
+  right: 150px;
+  z-index: 1000;
   
-  @media (max-width: 900px) {
-    .icone-carrinho {
-      width: 80px; /* Diminui o tamanho do ícone */
-      height: 80px;
-    }
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
   
-    .contador {
-      width: 16px; /* Diminui o tamanho do contador */
-      height: 16px;
-      font-size: 0.7rem; /* Diminui a fonte do contador */
-    }
+  /* Cor principal da sua marca */
+  background-color: #6b3624; 
   
-    .hover-text {
-      font-size: 0.7rem; /* Diminui a fonte do texto hover */
-      bottom: 130%; /* Ajuste a posição para que o texto de hover fique mais perto */
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  
+  animation: pulse 2s infinite;
+  transition: all 0.3s ease;
+  
+  text-decoration: none; 
+}
+
+.floating-cart-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  animation-play-state: paused;
+}
+
+/* --- Ícone do Carrinho (SVG) --- */
+.cart-icon {
+  width: 32px;
+  height: 32px;
+  stroke: #ffffff; /* Cor da linha do ícone */
+}
+
+/* --- Contador de Itens --- */
+.cart-counter {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  
+  background-color: #e74c3c;
+  color: white;
+  
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid white;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  font-size: 0.8rem;
+  font-weight: bold;
+  
+  animation: pop-in 0.3s ease;
+}
+
+/* --- Tooltip (Texto de Hover) --- */
+.cart-tooltip {
+  position: absolute;
+  right: 120%; 
+  top: 50%;
+  
+  background-color: #333;
+  color: #fff;
+  
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  
+  opacity: 0;
+  transform: translateY(-50%) translateX(10px);
+  pointer-events: none;
+  
+  transition: all 0.3s ease;
+}
+
+.floating-cart-button:hover .cart-tooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* --- Responsividade para Mobile --- */
+@media (max-width: 768px) {
+  .floating-cart-button {
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    right: 20px;
   }
+  .cart-icon {
+    width: 28px;
+    height: 28px;
+  }
+  .cart-counter {
+    width: 22px;
+    height: 22px;
+    font-size: 0.7rem;
+  }
+  .cart-tooltip {
+    display: none;
+  }
+}

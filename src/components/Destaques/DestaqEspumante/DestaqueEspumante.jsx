@@ -1,19 +1,44 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Slider from "react-slick";
-import supabase from "../../../supabaseClient";
-import { useCarrinho } from "../../context/CarrinhoContext";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Slider from 'react-slick';
+import supabase from '../../../supabaseClient';
+import { useCarrinho } from '../../context/CarrinhoContext';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./DestaqueEspumante.css";
+import './DestaqueEspumante.css';
+
+// --- SUB-COMPONENTE PARA O BOTÃO INTELIGENTE ---
+// Este componente decide se mostra "Adicionar" ou o controlo de quantidade
+const BotaoAdicionar = ({ produto }) => {
+  const { carrinho, adicionarAoCarrinho, diminuirQuantidade } = useCarrinho();
+  const itemNoCarrinho = carrinho.find(item => item.id === produto.id);
+
+  if (itemNoCarrinho) {
+    // Se o item já está no carrinho, mostra o controlo de quantidade
+    return (
+      <div className="quantity-control-card">
+        <button onClick={() => diminuirQuantidade(produto.id)}>−</button>
+        <span>{itemNoCarrinho.quantidade}</span>
+        <button onClick={() => adicionarAoCarrinho(produto)}>+</button>
+      </div>
+    );
+  }
+
+  // Se não, mostra o botão "Adicionar"
+  return (
+    <button className="add-to-cart-btn" onClick={() => adicionarAoCarrinho(produto)}>
+      Adicionar
+    </button>
+  );
+};
+
 
 const DestaqueEspumante = () => {
   const [produtos, setProdutos] = useState([]);
   const [carregando, setCarregando] = useState(true);
-  const [modalProduto, setModalProduto] = useState(null);
-  const [quantidade, setQuantidade] = useState(1);
   const navigate = useNavigate();
-  const { adicionarAoCarrinho } = useCarrinho();
+  
+  // A lógica do modal foi removida, o useCarrinho agora é usado pelo BotaoAdicionar
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +49,7 @@ const DestaqueEspumante = () => {
           .eq("category", "ESPUMANTES")
           .eq("destaque", true);
         if (error) throw new Error(error.message);
-        setProdutos(data);
+        setProdutos(data || []);
       } catch (error) {
         console.error("Erro ao carregar os produtos:", error);
       } finally {
@@ -34,24 +59,8 @@ const DestaqueEspumante = () => {
 
     fetchData();
   }, []);
-
-  const abrirModal = (produto) => {
-    setModalProduto(produto);
-    setQuantidade(1);
-  };
-
-  const fecharModal = () => {
-    setModalProduto(null);
-  };
-
-  const confirmarAdicao = () => {
-    if (quantidade > 0) {
-      adicionarAoCarrinho(modalProduto, quantidade);
-      fecharModal();
-    } else {
-      alert("Quantidade inválida. Tente novamente.");
-    }
-  };
+  
+  // As funções do modal (abrirModal, fecharModal, etc.) foram removidas daqui
 
   const settings = {
     dots: false,
@@ -88,13 +97,13 @@ const DestaqueEspumante = () => {
         <p>Carregando produtos...</p>
       ) : (
         <Slider {...settings}>
-          {produtos.map((produto, index) => (
-          <div className="espumante-produto-card" key={index}>
+          {produtos.map((produto) => ( // Alterado para usar produto.id como key
+            <div className="espumante-produto-card" key={produto.id}>
               <div className="espumante-produto-imagem-container">
                 <img
                   className="espumante-produto-imagem"
                   src={produto.imagem_url}
-                  alt={produto.nome}
+                  alt={produto.name} // Corrigido para produto.name
                 />
               </div>
               <h3>{produto.name}</h3>
@@ -102,63 +111,23 @@ const DestaqueEspumante = () => {
                 Preço: R$
                 {produto.price ? produto.price.toFixed(2) : "Indisponível"}
               </p>
-              <button onClick={() => abrirModal(produto)}>Adicionar</button>
+              
+              {/* SUBSTITUIÇÃO DO BOTÃO ANTIGO PELO NOVO COMPONENTE */}
+              <BotaoAdicionar produto={produto} />
+
             </div>
           ))}
         </Slider>
       )}
 
       <button
-          className="ver-mais"
-          onClick={() => navigate('/espumantes')}
-        >
-          Ver Mais
-        </button>
+        className="ver-mais"
+        onClick={() => navigate('/espumantes')}
+      >
+        Ver Mais
+      </button>
 
-      {modalProduto && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Adicionar ao Carrinho</h2>
-            <p>{modalProduto.name}</p>
-            <p>
-              Preço: R$
-              {modalProduto.price
-                ? modalProduto.price.toFixed(2)
-                : "Indisponível"}
-            </p>
-            <div className="quantity-container">
-              <label htmlFor="quantidade">Quantidade:</label>
-              <div className="quantity-controls">
-                <button
-                  className="decrease-btn"
-                  onClick={() => setQuantidade((prev) => Math.max(prev - 1, 1))}
-                >
-                  −
-                </button>
-                <input
-                  type="number"
-                  id="quantidade"
-                  value={quantidade}
-                  onChange={(e) =>
-                    setQuantidade(Math.max(1, parseInt(e.target.value, 10)))
-                  }
-                  min="1"
-                />
-                <button
-                  className="increase-btn"
-                  onClick={() => setQuantidade((prev) => prev + 1)}
-                >
-                  +
-                </button>
-              </div>
-            </div>
-            <div className="modal-buttons01">
-              ~<button onClick={confirmarAdicao}>Confirmar</button>
-              <button onClick={fecharModal}>Cancelar</button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* O JSX DO MODAL FOI COMPLETAMENTE REMOVIDO */}
     </div>
   );
 };

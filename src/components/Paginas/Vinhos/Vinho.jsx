@@ -3,24 +3,48 @@ import { useCarrinho } from '../../context/CarrinhoContext';
 import supabase from '../../../supabaseClient';
 import './Vinho.css';
 
+// --- SUB-COMPONENTE PARA O BOTÃO INTELIGENTE ---
+const BotaoAdicionar = ({ produto }) => {
+  const { carrinho, adicionarAoCarrinho, diminuirQuantidade } = useCarrinho();
+  const itemNoCarrinho = carrinho.find(item => item.id === produto.id);
+
+  if (itemNoCarrinho) {
+    // Se o item já está no carrinho, mostra o controlo de quantidade
+    return (
+      <div className="quantity-control-card">
+        <button onClick={() => diminuirQuantidade(produto.id)}>−</button>
+        <span>{itemNoCarrinho.quantidade}</span>
+        <button onClick={() => adicionarAoCarrinho(produto)}>+</button>
+      </div>
+    );
+  }
+
+  // Se não, mostra o botão "Adicionar"
+  return (
+    <button className="add-to-cart-btn" onClick={() => adicionarAoCarrinho(produto)}>
+      Adicionar
+    </button>
+  );
+};
+
+
 const Vinho = () => {
-  const [vinhos, setVinhos] = useState([]);
+  const [produtos, setProdutos] = useState([]);
   const [carregando, setCarregando] = useState(true);
-  const [modalProduto, setModalProduto] = useState(null);
-  const [quantidade, setQuantidade] = useState(1);
-  const [filtro, setFiltro] = useState('');  // Estado para o filtro de pesquisa
-  const { adicionarAoCarrinho } = useCarrinho();
+  const [filtro, setFiltro] = useState('');
+  
+  // A lógica do modal foi removida, o BotaoAdicionar usa o contexto diretamente.
 
   useEffect(() => {
-    const fetchVinhos = async () => {
+    const fetchProdutos = async () => {
       try {
         const { data, error } = await supabase
           .from('produtos')
           .select('*')
-          .eq('category', 'VINHO'); // Filtra apenas vinhos
+          .eq('category', 'VINHO');
 
         if (error) throw new Error(error.message);
-        setVinhos(data);
+        setProdutos(data || []);
       } catch (error) {
         console.error('Erro ao carregar os vinhos:', error);
       } finally {
@@ -28,121 +52,61 @@ const Vinho = () => {
       }
     };
 
-    fetchVinhos();
+    fetchProdutos();
   }, []);
 
-  const abrirModal = (produto) => {
-    setModalProduto(produto);
-    setQuantidade(1);
-  };
+  // Funções do modal (abrirModal, fecharModal, etc.) foram removidas
 
-  const fecharModal = () => {
-    setModalProduto(null);
-  };
-
-  const confirmarAdicao = () => {
-    if (quantidade > 0) {
-      adicionarAoCarrinho(modalProduto, quantidade);
-      fecharModal();
-    } else {
-      alert("Quantidade inválida. Tente novamente.");
-    }
-  };
-
-  // Filtra e ordena vinhos com base no nome
-  const vinhosFiltrados = vinhos
-    .filter(vinho => vinho.name.toLowerCase().includes(filtro.toLowerCase()))
-    .sort((a, b) => a.name.localeCompare(b.name)); // Ordena alfabeticamente
+  const produtosFiltrados = produtos
+    .filter(produto => produto.name.toLowerCase().includes(filtro.toLowerCase()))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   return (
-    <div className="vinho-container">
-      <div className='fundo001'>
-        <div className='titulo-uva'>
-          <h1 className='h1vinho'>VINHOS</h1>
-          <p className='pvinho'>DEGUSTAÇÃO E HARMONIZAÇÃO</p>
+    <div className="vinho-page-container">
+      <header className="vinho-header">
+        <div className="vinho-header-content">
+          <h1>Vinhos</h1>
+          <p>DEGUSTAÇÃO E HARMONIZAÇÃO PARA GRANDES MOMENTOS</p>
         </div>
+      </header>
 
-        <h2 className="titulo-vinho">Todos os Vinhos</h2>
-        
-        {/* Campo de pesquisa */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+      <main className="vinho-main-content">
+        <div className="search-bar-container">
           <input
             type="text"
-            placeholder="Filtrar vinhos..."
+            placeholder="Buscar por nome do vinho..."
             value={filtro}
-            onChange={(e) => setFiltro(e.target.value)} // Atualiza o filtro
-            style={{
-              width: '50%',
-              padding: '10px',
-              borderRadius: '5px',
-              border: '1px solid #ccc',
-            }}
+            onChange={(e) => setFiltro(e.target.value)}
+            className="vinho-search-input"
           />
         </div>
 
         {carregando ? (
           <p>Carregando vinhos...</p>
-        ) : vinhosFiltrados.length > 0 ? (
-          <div className="vinhos-lista">
-            {vinhosFiltrados.map((vinho, index) => (
-              <div className="vinho-card" key={index}>
-                <img
-                  className="vinho-imagem"
-                  src={vinho.imagem_url}
-                  alt={vinho.name}
-                />
-                <h3 className="vinho-nome">{vinho.name}</h3>
-                <p className="vinho-preco">
-                  Preço: R${vinho.price ? vinho.price.toFixed(2) : 'Indisponível'}
-                </p>
-                <button onClick={() => abrirModal(vinho)}>
-                  Adicionar
-                </button>
+        ) : produtosFiltrados.length > 0 ? (
+          <div className="vinho-grid">
+            {produtosFiltrados.map((produto) => (
+              <div className="vinho-card" key={produto.id}>
+                <div className="vinho-card-image-container">
+                    <img src={produto.imagem_url} alt={produto.name} />
+                </div>
+                <div className="vinho-card-content">
+                    <h3>{produto.name}</h3>
+                    <p className="vinho-preco">
+                      R${produto.price ? produto.price.toFixed(2) : 'Indisponível'}
+                    </p>
+                    {/* O botão antigo foi substituído pelo nosso componente inteligente */}
+                    <BotaoAdicionar produto={produto} />
+                </div>
               </div>
             ))}
           </div>
         ) : (
-          <p>Nenhum vinho encontrado.</p>
+          <p className="nenhum-produto">Nenhum vinho encontrado.</p>
         )}
+      </main>
 
-        {modalProduto && (
-          <div className="modal">
-            <div className="modal-content">
-              <h2>Adicionar ao Carrinho</h2>
-              <p>{modalProduto.name}</p>
-              <p>Preço: R${modalProduto.price ? modalProduto.price.toFixed(2) : 'Indisponível'}</p>
-              <div className="quantity-container">
-                <label htmlFor="quantidade">Quantidade:</label>
-                <div className="quantity-controls">
-                  <button
-                    className="decrease-btn"
-                    onClick={() => setQuantidade((prev) => Math.max(prev - 1, 1))}
-                  >
-                    −
-                  </button>
-                  <input
-                    type="number"
-                    id="quantidade"
-                    value={quantidade}
-                    onChange={(e) => setQuantidade(Math.max(1, parseInt(e.target.value, 10)))}
-                    min="1"
-                  />
-                  <button
-                    className="increase-btn"
-                    onClick={() => setQuantidade((prev) => prev + 1)}
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-              <div className="modal-buttons">
-                <button onClick={confirmarAdicao}>Confirmar</button>
-                <button onClick={fecharModal}>Cancelar</button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+      {/* O JSX do modal foi completamente removido daqui */}
     </div>
   );
 };

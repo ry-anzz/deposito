@@ -1,142 +1,206 @@
 @import url('https://fonts.cdnfonts.com/css/niagara-engraved?styles=17862');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
 
-.agua-container {
-    padding: 0px;
-    margin: 0;
-    text-align: center;
-     /* Caminho absoluto para fundo de água */
+/* --- Cabeçalho da Página (Banner) --- */
+.petshop-header {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(https://www.dalpet.com.br/uploads/imagens/racao-com-probioticos-descubra-os-benficios-101-4494.jpg);
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  color: #f39c12; /* Laranja/Dourado para o tema */
+  padding: 20px;
+  text-align: center;
+  box-sizing: border-box;
 }
 
-.fundo001 {
-    width: 100%;
-    height: 100%; /* A altura da tela inteira */
-    
-    background-size: cover; /* A imagem cobre toda a área sem deixar espaços */
-    background-position: top center; /* Alinha a imagem ao topo e centraliza horizontalmente */
-    background-attachment: fixed; /* Fixar a imagem no fundo */
-    background-repeat: no-repeat; /* Garante que a imagem não seja repetida */
-    margin: 0;
+/* --- Título do Banner --- */
+.petshop-header-content h1 {
+  position: relative; 
+  font-family: 'Niagara Engraved', sans-serif;
+  font-size: 10rem;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  padding-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  text-transform: uppercase;
 }
 
-.titulo-agua {
-    padding: 0;
-    margin: 0;
-    height: 90vh;
-    flex-direction: column;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 100%;
-    margin-top: -30px;
+.petshop-header-content h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  max-width: 90%;
+  height: 3px;
+  background-color: #f39c12; /* Laranja/Dourado */
+  border-radius: 2px;
 }
 
-.titulo-agua .h1agua {
-    font-family: 'Niagara Engraved', sans-serif;
-    font-size: 10rem;  /* Tamanho da fonte */
-    color: #1e81b0; /* Azul para água */
-    letter-spacing: 0.2em; /* Espaço entre as letras */
-    text-align: start;
+/* --- Parágrafo do Banner --- */
+.petshop-header-content p {
+  font-family: 'Roboto Slab', serif;
+  font-size: 1rem;
+  color: #ffffff;
+  letter-spacing: 0.1em;
+  margin: 0;
 }
 
-.pagua {
-    font-family: 'Roboto Slab', serif; /* Fonte personalizada */
-    font-size: 1rem;  /* Ajuste o tamanho conforme necessário */
-    color: #62a8c8;   /* Cor azul clara */
-    letter-spacing: 0.1em; /* Espaço entre as letras */
-    text-align: start;
+/* --- Conteúdo Principal --- */
+.petshop-main-content {
+  margin: -40px auto 40px auto;
+  position: relative;
+  z-index: 2;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
-.titulo-produto {
-    font-size: 24px;
-    margin-bottom: 20px;
+/* --- Barra de Busca --- */
+.search-bar-container {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
 }
 
-.produtos-lista {
-    display: flex;
-    flex-wrap: wrap; /* Permite quebrar os itens na horizontal */
-    gap: 20px; /* Espaçamento entre os cards */
-    justify-content: center; /* Centraliza os cards */
+.petshop-search-input {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 50%;
+  padding: 15px 20px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 2rem;
+  box-sizing: border-box;
 }
 
-.produto-card {
-    flex: 1 1 300px; /* Cada card ocupa no mínimo 300px, ajusta conforme a tela */
-    max-width: 300px; /* Limita a largura máxima dos cards */
-    height: 400px; /* Define uma altura fixa para os cards */
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column; /* Alinha os itens verticalmente */
-    justify-content: space-between; /* Espaça os itens dentro do card */
-    align-items: center; /* Centraliza horizontalmente os itens */
-    background-color: #e0f7fa; /* Azul claro para fundo */
-    transition: transform 0.3s;
+/* --- Grade de Produtos --- */
+.petshop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 40px; 
 }
 
-.produto-card:hover {
-    transform: scale(1.05);
+/* --- Card de Produto --- */
+.petshop-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.petshop-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
 }
 
-.produto-imagem {
-    width: 100%; /* Imagem ocupa toda a largura disponível */
-    height: 200px; /* Altura fixa para uniformizar o tamanho */
-    object-fit: cover; /* Garante que a imagem preencha o espaço */
-    border-radius: 8px;
-    background-color: #fff; /* Fundo branco para imagens menores */
+.petshop-card-image-container {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.petshop-card-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
-.produto-nome {
-    font-size: 18px;
-    margin: 10px 0;
-    text-align: center;
+.petshop-card-content {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: left;
 }
 
-.produto-preco {
-    color: #0077b6; /* Azul escuro */
-    font-size: 16px;
-    margin-bottom: 10px;
+.petshop-card-content h3 {
+  font-family: 'Roboto Slab', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #333333;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+  min-height: 55px;
 }
 
-.produto-botao {
-    padding: 10px 15px;
-    background-color: #0077b6; /* Azul escuro */
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.petshop-preco {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #6b3624;
+  margin-bottom: 25px;
+  text-align: right;
 }
 
-.produto-botao:hover {
-    background-color: #005f87; /* Azul mais escuro */
+.petshop-preco::before {
+  content: "R$ ";
+  font-size: 1.5rem;
+  font-weight: 600;
+  vertical-align: middle;
 }
 
+/* --- Botão do Card --- */
+.petshop-card-button {
+   margin-top: auto;
+  padding: 15px 30px;
+  background-color: #6b1e1e;
+  color: #ffffff;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(107, 30, 30, 0.3);
+}
+.petshop-card-button:hover {
+   background-color: #8a2b2b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(138, 43, 43, 0.4);
+}
+
+.nenhum-produto {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #777;
+  padding: 40px 0;
+}
+
+/* --- Responsividade --- */
 @media (max-width: 768px) {
-    .titulo-agua .h1agua {
-        text-align: center;
-        font-size: 5rem;
-        margin-left: 70px;
-    }
-
-    .pagua {
-        margin-left: 70px;
-        text-align: center;
-    }
-
-    .titulo-agua {
-        height: 40vh;
-        width: 100%;
-        margin-left: -30px;
-        flex-direction: column;
-        display: flex;
-        align-items: center;
-        justify-content: start;
-        background-size: 170% 140%; /* Ajusta a imagem para telas menores */
-        background-position: center;
-    }
+  .petshop-header {
+    height: 60vh;
+    margin-bottom: 0;
+  }
+  .petshop-header-content h1 {
+    font-size: 5rem;
+  }
+  .petshop-main-content {
+    width: 100%;
+    margin-top: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+  }
+  .petshop-search-input {
+      width: 90%;
+  }
 }

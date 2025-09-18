@@ -1,27 +1,50 @@
-// Espumante.js
 import React, { useState, useEffect } from 'react';
 import { useCarrinho } from '../../context/CarrinhoContext';
 import supabase from '../../../supabaseClient';
-import './Espumante.css';  // Apliquei o estilo restrito no arquivo CSS
+import './Espumante.css';
+
+// --- SUB-COMPONENTE PARA O BOTÃO INTELIGENTE ---
+const BotaoAdicionar = ({ produto }) => {
+  const { carrinho, adicionarAoCarrinho, diminuirQuantidade } = useCarrinho();
+  const itemNoCarrinho = carrinho.find(item => item.id === produto.id);
+
+  if (itemNoCarrinho) {
+    // Se o item já está no carrinho, mostra o controlo de quantidade
+    return (
+      <div className="quantity-control-card">
+        <button onClick={() => diminuirQuantidade(produto.id)}>−</button>
+        <span>{itemNoCarrinho.quantidade}</span>
+        <button onClick={() => adicionarAoCarrinho(produto)}>+</button>
+      </div>
+    );
+  }
+
+  // Se não, mostra o botão "Adicionar"
+  return (
+    <button className="add-to-cart-btn" onClick={() => adicionarAoCarrinho(produto)}>
+      Adicionar
+    </button>
+  );
+};
+
 
 const Espumante = () => {
-  const [espumantes, setEspumantes] = useState([]);
+  const [produtos, setProdutos] = useState([]);
   const [carregando, setCarregando] = useState(true);
-  const [modalProduto, setModalProduto] = useState(null);
-  const [quantidade, setQuantidade] = useState(1);
   const [filtro, setFiltro] = useState('');
-  const { adicionarAoCarrinho } = useCarrinho();
+  
+  // A lógica do modal foi removida
 
   useEffect(() => {
-    const fetchEspumantes = async () => {
+    const fetchProdutos = async () => {
       try {
         const { data, error } = await supabase
           .from('produtos')
           .select('*')
-          .eq('category', 'ESPUMANTES'); // Filtra apenas espumantes
+          .eq('category', 'ESPUMANTES');
 
         if (error) throw new Error(error.message);
-        setEspumantes(data);
+        setProdutos(data || []);
       } catch (error) {
         console.error('Erro ao carregar os espumantes:', error);
       } finally {
@@ -29,150 +52,61 @@ const Espumante = () => {
       }
     };
 
-    fetchEspumantes();
+    fetchProdutos();
   }, []);
 
-  const abrirModal = (produto) => {
-    setModalProduto(produto);
-    setQuantidade(1);
-  };
+  // Funções do modal (abrirModal, fecharModal, etc.) foram removidas
 
-  const fecharModal = () => {
-    setModalProduto(null);
-  };
-
-  const confirmarAdicao = () => {
-    if (quantidade > 0) {
-      adicionarAoCarrinho(modalProduto, quantidade);
-      fecharModal();
-    } else {
-      alert("Quantidade inválida. Tente novamente.");
-    }
-  };
-
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    draggable: true,
-    swipeToSlide: true,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        }
-      }
-    ]
-  };
-
-  const espumantesFiltrados = espumantes.filter(espumante =>
-    espumante.name.toLowerCase().includes(filtro.toLowerCase())
-  );
+  const produtosFiltrados = produtos
+    .filter(produto => produto.name.toLowerCase().includes(filtro.toLowerCase()))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   return (
-    <div className="espumante">
-      <div className="espumante-container">
-        <div className="fundo01">
-          <div className="titulo-espumante">
-            <h1 className="h1espumante">ESPUMANTES</h1>
-            <p className="pespumante">BRINDES QUE CELEBRAM MOMENTOS</p>
-          </div>
+    <div className="espumante-page-container">
+      <header className="espumante-header">
+        <div className="espumante-header-content">
+          <h1>Espumantes</h1>
+          <p>BRINDES QUE CELEBRAM GRANDES MOMENTOS</p>
+        </div>
+      </header>
 
-          <h2 className="titulo-espumanteS">Todos os Espumantes</h2>
-          
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-            <input
-              type="text"
-              placeholder="Filtrar espumantes..."
-              value={filtro}
-              onChange={(e) => setFiltro(e.target.value)}
-              style={{
-                width: '50%',
-                padding: '10px',
-                borderRadius: '5px',
-                border: '1px solid #ccc',
-              }}
-            />
-          </div>
+      <main className="espumante-main-content">
+        <div className="search-bar-container">
+          <input
+            type="text"
+            placeholder="Buscar por nome do espumante..."
+            value={filtro}
+            onChange={(e) => setFiltro(e.target.value)}
+            className="espumante-search-input"
+          />
+        </div>
 
-          {carregando ? (
-            <p>Carregando espumantes...</p>
-          ) : espumantesFiltrados.length > 0 ? (
-            <div className="espumantes-lista">
-              {espumantesFiltrados.map((espumante, index) => (
-                <div className="espumante-card" key={index}>
-                  <img
-                    className="espumante-imagem"
-                    src={espumante.imagem_url}
-                    alt={espumante.name}
-                  />
-                  <h3 className="espumante-nome">{espumante.name}</h3>
-                  <p className="espumante-preco">
-                    Preço: R${espumante.price ? espumante.price.toFixed(2) : 'Indisponível'}
-                  </p>
-                  <button onClick={() => abrirModal(espumante)}>
-                  Adicionar
-                </button>
+        {carregando ? (
+          <p>Carregando espumantes...</p>
+        ) : produtosFiltrados.length > 0 ? (
+          <div className="espumante-grid">
+            {produtosFiltrados.map((produto) => (
+              <div className="espumante-card" key={produto.id}>
+                <div className="espumante-card-image-container">
+                    <img src={produto.imagem_url} alt={produto.name} />
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p>Nenhum espumante encontrado.</p>
-          )}
-
-{modalProduto && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Adicionar ao Carrinho</h2>
-            <p>{modalProduto.name}</p>
-            <p>Preço: R${modalProduto.price ? modalProduto.price.toFixed(2) : 'Indisponível'}</p>
-            <div className="quantity-container">
-              <label htmlFor="quantidade">Quantidade:</label>
-              <div className="quantity-controls">
-                <button
-                  className="decrease-btn"
-                  onClick={() => setQuantidade((prev) => Math.max(prev - 1, 1))}
-                >
-                  −
-                </button>
-                <input
-                  type="number"
-                  id="quantidade"
-                  value={quantidade}
-                  onChange={(e) => setQuantidade(Math.max(1, parseInt(e.target.value, 10)))}
-                  min="1"
-                />
-                <button
-                  className="increase-btn"
-                  onClick={() => setQuantidade((prev) => prev + 1)}
-                >
-                  +
-                </button>
+                <div className="espumante-card-content">
+                    <h3>{produto.name}</h3>
+                    <p className="espumante-preco">
+                      R${produto.price ? produto.price.toFixed(2) : 'Indisponível'}
+                    </p>
+                    {/* O botão antigo foi substituído pelo nosso componente inteligente */}
+                    <BotaoAdicionar produto={produto} />
+                </div>
               </div>
-            </div>
-            <div className="modal-buttons">
-            
-              <button onClick={confirmarAdicao}>Confirmar</button>
-              <button onClick={fecharModal}>Cancelar</button>
-            </div>
+            ))}
           </div>
-        </div>
-      )}
-        </div>
-      </div>
+        ) : (
+          <p className="nenhum-produto">Nenhum espumante encontrado.</p>
+        )}
+      </main>
+
+      {/* O JSX do modal foi completamente removido daqui */}
     </div>
   );
 };

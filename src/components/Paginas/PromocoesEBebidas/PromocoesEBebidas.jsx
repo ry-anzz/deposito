@@ -57,94 +57,79 @@ const Promocoes = () => {
     })
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  return (
-    <div className="container-banner">
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+  // No seu arquivo Promocoes.js, substitua apenas o return
+
+return (
+  <div className="promocoes-page-container">
+    <header className="promocoes-header">
+      <div className="promocoes-header-content">
+        <h1>Promoções & Bebidas</h1>
+        <p>AS MELHORES OFERTAS, SELECIONADAS PARA VOCÊ</p>
+      </div>
+    </header>
+
+    <main className="promocoes-main-content">
+      <div className="search-bar-container">
         <input
           type="text"
-          placeholder="Buscar Promocoes..."
+          placeholder="Buscar por nome do produto..."
           value={filtro}
           onChange={(e) => setFiltro(e.target.value)}
-          style={{
-            width: '50%',
-            padding: '10px',
-            borderRadius: '5px',
-            border: '1px solid #ccc',
-          }}
+          className="promocoes-search-input"
         />
       </div>
 
-      <div className="swiper-container">
-        <Swiper
-          spaceBetween={0}
-          grabCursor={true}
-          breakpoints={{
-            300: { slidesPerView: 3.5 },
-            800: { slidesPerView: 4.5 },
-            1000: { slidesPerView: 6.5 },
-            1500: { slidesPerView: 15 },
-          }}
-        >
-          {categoriasPromocoes.map((categoria, index) => (
-            <SwiperSlide key={index}>
-              <button
-                className={`botons00 ${categoriaFiltro === categoria ? 'ativo' : ''}`}
-                onClick={() => handleCategoriaFiltro(categoria)}
-              >
-                <p className='pbotao'>{categoria.replace('-', ' ')}</p>
-              </button>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
+      
 
       {carregando ? (
         <p>Carregando produtos...</p>
       ) : produtosFiltrados.length > 0 ? (
-        <div className="produtos-container">
-          {produtosFiltrados.map((produto, index) => (
-            <div className="produto-card" key={index}>
-              <img className="produto-imagem" src={produto.imagem_url} alt={produto.name} />
-              <div className="produto-info">
-                <h3 className="nome-produto">{produto.name}</h3>
-                <p>Preço: R${produto.price ? produto.price.toFixed(2) : 'Indisponível'}</p>
-                <button onClick={() => abrirModal(produto)}>Adicionar</button>
+        <div className="promocoes-grid">
+          {produtosFiltrados.map((produto) => (
+            <div className="promocao-card" key={produto.id}>
+              <div className="promocao-card-image-container">
+                  <img src={produto.imagem_url} alt={produto.name} />
+              </div>
+              <div className="promocao-card-content">
+                  <h3>{produto.name}</h3>
+                  <p className="promocao-preco">
+                    R${produto.price ? produto.price.toFixed(2) : 'Indisponível'}
+                  </p>
+                  <button className="promocao-card-button" onClick={() => abrirModal(produto)}>
+                    Adicionar
+                  </button>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <p>Nenhum produto encontrado para essa categoria.</p>
+        <p className="nenhum-produto">Nenhum produto encontrado com os filtros atuais.</p>
       )}
+    </main>
 
-      {modalProduto && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Adicionar ao Carrinho</h2>
-            <p>{modalProduto.name}</p>
-            <p>Preço: R${modalProduto.price?.toFixed(2) ?? 'Indisponível'}</p>
-            <div className="quantity-container">
-              <label htmlFor="quantidade">Quantidade:</label>
-              <div className="quantity-controls">
-                <button onClick={() => setQuantidade((prev) => Math.max(prev - 1, 1))}>−</button>
-                <input
-                  type="number"
-                  id="quantidade"
-                  value={quantidade}
-                  onChange={(e) => setQuantidade(Math.max(1, parseInt(e.target.value, 10)))}
-                />
-                <button onClick={() => setQuantidade((prev) => prev + 1)}>+</button>
-              </div>
-            </div>
-            <div className="modal-buttons">
-              <button onClick={confirmarAdicao}>Confirmar</button>
-              <button onClick={fecharModal}>Cancelar</button>
+    {modalProduto && (
+      <div className="modal">
+        <div className="modal-content">
+          <h2>Adicionar ao Carrinho</h2>
+          <p>{modalProduto.name}</p>
+          <p>Preço: R${modalProduto.price?.toFixed(2) ?? 'Indisponível'}</p>
+          <div className="quantity-container">
+            <label htmlFor="quantidade">Quantidade:</label>
+            <div className="quantity-controls">
+              <button onClick={() => setQuantidade((prev) => Math.max(prev - 1, 1))}>−</button>
+              <input type="number" id="quantidade" value={quantidade} onChange={(e) => setQuantidade(Math.max(1, parseInt(e.target.value, 10)))} />
+              <button onClick={() => setQuantidade((prev) => prev + 1)}>+</button>
             </div>
           </div>
+          <div className="modal-buttons">
+            <button onClick={confirmarAdicao}>Confirmar</button>
+            <button onClick={fecharModal}>Cancelar</button>
+          </div>
         </div>
-      )}
-    </div>
-  );
+      </div>
+    )}
+  </div>
+);
 };
 
 export default Promocoes;

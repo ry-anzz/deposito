@@ -2,18 +2,46 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import supabase from '../../../supabaseClient';
-import { useCarrinho } from '../../context/CarrinhoContext';
+import { useCarrinho } from '../../context/CarrinhoContext'; // Importa as novas funções necessárias
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import './DestaqueVinho.css'; // Alteração para o novo CSS do Vinho
+import './DestaqueVinho.css';
+
+// --- SUB-COMPONENTE PARA O BOTÃO INTELIGENTE ---
+const BotaoAdicionar = ({ produto }) => {
+  // Pega o carrinho e as funções de adicionar/diminuir do contexto global
+  const { carrinho, adicionarAoCarrinho, diminuirQuantidade } = useCarrinho();
+  
+  // Verifica se este produto específico já está no carrinho
+  const itemNoCarrinho = carrinho.find(item => item.id === produto.id);
+
+  if (itemNoCarrinho) {
+    // Se o item já está no carrinho, mostra o controlo de quantidade
+    return (
+      <div className="quantity-control-card">
+        <button onClick={() => diminuirQuantidade(produto.id)}>−</button>
+        <span>{itemNoCarrinho.quantidade}</span>
+        <button onClick={() => adicionarAoCarrinho(produto)}>+</button>
+      </div>
+    );
+  }
+
+  // Se não, mostra o botão "Adicionar" original
+  return (
+    <button className="add-to-cart-btn" onClick={() => adicionarAoCarrinho(produto)}>
+      Adicionar
+    </button>
+  );
+};
+
 
 const DestaqueVinho = () => {
   const [produtos, setProdutos] = useState([]);
   const [carregando, setCarregando] = useState(true);
-  const [modalProduto, setModalProduto] = useState(null);
-  const [quantidade, setQuantidade] = useState(1);
   const navigate = useNavigate();
-  const { adicionarAoCarrinho } = useCarrinho();
+  
+  // A lógica do modal foi removida, então não precisamos mais de 'adicionarAoCarrinho' aqui
+  // O componente BotaoAdicionar vai lidar com isso.
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,10 +49,10 @@ const DestaqueVinho = () => {
         const { data, error } = await supabase
           .from('produtos')
           .select('*')
-          .eq('category', 'VINHO') // Filtra produtos da categoria 'VINHO'
-          .eq('destaque', true); // Filtra produtos com destaque igual a true
+          .eq('category', 'VINHO')
+          .eq('destaque', true);
         if (error) throw new Error(error.message);
-        setProdutos(data);
+        setProdutos(data || []); // Garante que produtos seja sempre um array
       } catch (error) {
         console.error('Erro ao carregar os produtos:', error);
       } finally {
@@ -34,24 +62,8 @@ const DestaqueVinho = () => {
 
     fetchData();
   }, []);
-
-  const abrirModal = (produto) => {
-    setModalProduto(produto);
-    setQuantidade(1);
-  };
-
-  const fecharModal = () => {
-    setModalProduto(null);
-  };
-
-  const confirmarAdicao = () => {
-    if (quantidade > 0) {
-      adicionarAoCarrinho(modalProduto, quantidade);
-      fecharModal();
-    } else {
-      alert("Quantidade inválida. Tente novamente.");
-    }
-  };
+  
+  // TODA A LÓGICA DO MODAL (abrirModal, fecharModal, confirmarAdicao, useState) FOI REMOVIDA
 
   const settings = {
     dots: false,
@@ -64,20 +76,8 @@ const DestaqueVinho = () => {
     draggable: true,
     swipeToSlide: true,
     responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        }
-      }
+      { breakpoint: 1024, settings: { slidesToShow: 2 } },
+      { breakpoint: 768, settings: { slidesToShow: 1 } },
     ]
   };
 
@@ -88,71 +88,33 @@ const DestaqueVinho = () => {
         <p>Carregando produtos...</p>
       ) : (
         <Slider {...settings}>
-          {produtos.map((produto, index) => (
-            <div className="vinho-produto-card" key={index}>
+          {produtos.map((produto) => ( // Removido o 'index' desnecessário
+            <div className="vinho-produto-card" key={produto.id}> {/* Usando produto.id como key */}
               <div className="vinho-produto-imagem-container">
                 <img
                   className="vinho-produto-imagem"
                   src={produto.imagem_url}
-                  alt={produto.nome}
+                  alt={produto.name} // Corrigido para produto.name
                 />
               </div>
               <h3>{produto.name}</h3>
               <p>Preço: R${produto.price ? produto.price.toFixed(2) : 'Indisponível'}</p>
-              <button onClick={() => abrirModal(produto)}>
-                Adicionar
-              </button>
+              
+              {/* SUBSTITUIÇÃO DO BOTÃO ANTIGO PELO NOVO COMPONENTE */}
+              <BotaoAdicionar produto={produto} />
+
             </div>
           ))}
         </Slider>
-        
       )}
-  <button
-          className="ver-mais"
-          onClick={() => navigate('/vinhos')}
-        >
-          Ver Mais
-        </button>
-      {/* Modal */}
-      {modalProduto && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Adicionar ao Carrinho</h2>
-            <p>{modalProduto.name}</p>
-            <p>Preço: R${modalProduto.price ? modalProduto.price.toFixed(2) : 'Indisponível'}</p>
-            <div className="quantity-container">
-              <label htmlFor="quantidade">Quantidade:</label>
-              <div className="quantity-controls">
-                <button
-                  className="decrease-btn"
-                  onClick={() => setQuantidade((prev) => Math.max(prev - 1, 1))}
-                >
-                  −
-                </button>
-                <input
-                  type="number"
-                  id="quantidade"
-                  value={quantidade}
-                  onChange={(e) => setQuantidade(Math.max(1, parseInt(e.target.value, 10)))}
-                  min="1"
-                />
-                <button
-                  className="increase-btn"
-                  onClick={() => setQuantidade((prev) => prev + 1)}
-                >
-                  +
-                </button>
-              </div>
-            </div>
-            <div className="modal-buttons">
-           
-              <button onClick={confirmarAdicao}>Confirmar</button>
-              <button onClick={fecharModal}>Cancelar</button>
-            </div>
-          </div>
-        </div>
-      )}
+      <button
+        className="ver-mais"
+        onClick={() => navigate('/vinhos')}
+      >
+        Ver Mais
+      </button>
 
+      {/* O JSX DO MODAL FOI COMPLETAMENTE REMOVIDO */}
     </div>
   );
 };

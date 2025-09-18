@@ -1,0 +1,113 @@
+/* --- Cabeçalho da Página (Banner) --- */
+.locais-header {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(https://upload.wikimedia.org/wikipedia/commons/e/eb/Maca%C3%A9-RJ.jpg);
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+  padding: 20px;
+  text-align: center;
+}
+
+.locais-header-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  text-transform: uppercase;
+}
+
+.locais-header-content p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  opacity: 0.9;
+}
+
+/* --- Conteúdo Principal --- */
+.locais-main-content {
+  width: 90%;
+  max-width: 1200px;
+  margin: 40px auto;
+  position: relative;
+}
+
+/* --- Alerta de Aviso --- */
+.locais-alert {
+  background-color: #fff3cd;
+  color: #664d03;
+  border: 1px solid #ffecb5;
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+.locais-alert p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* --- Grade de Locais --- */
+.locais-grid {
+  display: grid;
+  /* Cria 2 colunas em telas médias e 3 em telas grandes */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+/* --- Card de Local --- */
+.local-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.local-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+}
+
+.local-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.local-icon {
+  font-size: 1.5rem;
+}
+
+.local-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.local-price {
+  background-color: #6b3624;
+  color: #ffffff;
+  padding: 8px 15px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+  .locais-header {
+    height: 50vh;
+  }
+  .locais-header-content h1 {
+    font-size: 2rem;
+  }
+  .locais-grid {
+    grid-template-columns: 1fr; /* Uma coluna em telas pequenas */
+  }
+}

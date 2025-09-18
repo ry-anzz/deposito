@@ -89,9 +89,7 @@ const Banner = () => {
               {/* Botão de redirecionamento abaixo do texto */}
               {banner.text && (
                 <div className="botao-banner01">
-                  <Link to={banner.link}>
-                    <button className='bot'>Ver Mais</button>
-                  </Link>
+                 
                 </div>
               )}
             </div>
