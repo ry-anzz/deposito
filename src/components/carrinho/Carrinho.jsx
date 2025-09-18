@@ -1,8 +1,8 @@
-
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCarrinho } from '../context/CarrinhoContext';
-
 import supabase from '../../supabaseClient';
+import { db } from '../../../firebase'; // Verifique se este caminho está correto
+import { collection, addDoc } from 'firebase/firestore';
 import { Link } from 'react-router-dom';
 import './Carrinho.css';
 
@@ -10,10 +10,10 @@ const Carrinho = () => {
   const { carrinho, adicionarAoCarrinho, diminuirQuantidade, removerDoCarrinho } = useCarrinho();
   const [sugestoes, setSugestoes] = useState([]);
 
-  // Estados do formulário
+  // --- ESTADOS DO FORMULÁRIO (DA SUA VERSÃO ANTERIOR) ---
   const [nome, setNome] = useState('');
   const [rua, setRua] = useState('');
-  const [numero, setNumero] = useState('');
+  const [numero, setNumero] = useState(''); // Renomeado de 'cep' para 'numero' para maior clareza
   const [referencia, setReferencia] = useState('');
   const [modoPagamento, setModoPagamento] = useState('');
   const [troco, setTroco] = useState('');
@@ -35,26 +35,15 @@ const Carrinho = () => {
     const fetchSugestoes = async () => {
       const categoriasSugeridas = ['MERCEARIA', 'GELO', 'REFRIGERANTES', 'DOCES'];
       const { data, error } = await supabase
-        .from('produtos')
-        .select('*')
-        .in('category', categoriasSugeridas)
-        .limit(4);
-      if (!error) {
-        setSugestoes(data);
-      } else {
-        console.error("Erro ao buscar sugestões:", error);
-      }
+        .from('produtos').select('*').in('category', categoriasSugeridas).limit(4);
+      if (!error) setSugestoes(data);
     };
     fetchSugestoes();
   }, []);
   
-  const calcularSubtotal = () => {
-    return carrinho.reduce((total, produto) => total + produto.price * produto.quantidade, 0);
-  };
-
-  const calcularTotal = () => {
-    return calcularSubtotal() + valorEntrega;
-  };
+  const calcularSubtotal = () => carrinho.reduce((total, produto) => total + produto.price * produto.quantidade, 0);
+  
+  const calcularTotal = () => calcularSubtotal() + valorEntrega;
   
   const handleLocalChange = (e) => {
     const nomeLocal = e.target.value;
@@ -63,14 +52,71 @@ const Carrinho = () => {
     setValorEntrega(local ? local.valor : 0);
   };
   
+  // --- LÓGICA DE ENVIO DO PEDIDO (DA SUA VERSÃO ANTERIOR) ---
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (carrinho.length === 0) {
-        alert("Seu carrinho está vazio. Adicione produtos antes de finalizar o pedido.");
-        return;
+      alert("Seu carrinho está vazio!");
+      return;
     }
-    // ...Sua lógica de envio para o Firestore e WhatsApp...
-    alert(`Pedido enviado com sucesso!`);
+
+    const idPedido = Math.random().toString(36).substring(2, 8).toUpperCase();
+
+    // 1. Enviar para o Firestore
+    try {
+      const pedido = {
+        idPedido,
+        cliente: { nome, rua, numero, referencia, local: localSelecionado, valorEntrega },
+        pagamento: { modo: modoPagamento, troco: modoPagamento === 'Dinheiro' ? troco : null },
+        produtos: carrinho.map(p => ({ id: p.id, nome: p.name, quantidade: p.quantidade, preco: p.price })),
+        total: calcularTotal(),
+        data: new Date().toISOString(),
+      };
+      await addDoc(collection(db, 'pedidos'), pedido);
+      console.log('Pedido enviado ao Firestore com sucesso.');
+    } catch (err) {
+      console.error('Erro ao enviar pedido para o Firestore:', err);
+      alert('Ocorreu um erro ao salvar seu pedido. Tente novamente.');
+      return; // Interrompe se o Firestore falhar
+    }
+
+    // 2. Enviar para o WhatsApp
+    const produtosMensagem = carrinho.map(p => 
+        `🛒 *${p.name}*\n   - Qtd: ${p.quantidade} x R$${p.price.toFixed(2)} = R$${(p.price * p.quantidade).toFixed(2)}`
+    ).join('\n\n');
+
+    const entregaMensagem = `Taxa de Entrega: R$${valorEntrega.toFixed(2)}`;
+    const totalMensagem = `*Total do Pedido: R$${calcularTotal().toFixed(2)}*`;
+
+    const mensagem = `
+*NOVO PEDIDO RECEBIDO* #${idPedido}
+
+*Produtos:*
+${produtosMensagem}
+
+-----------------------------------
+*Resumo:*
+- Subtotal: R$${calcularSubtotal().toFixed(2)}
+- ${entregaMensagem}
+- ${totalMensagem}
+
+*Detalhes da Entrega:*
+- *Nome:* ${nome}
+- *Endereço:* ${rua}, Nº ${numero}
+- *Bairro:* ${localSelecionado}
+- *Referência:* ${referencia || 'Nenhuma'}
+
+*Pagamento:*
+- *Método:* ${modoPagamento}
+${modoPagamento === 'Dinheiro' ? `- *Troco para:* R$${troco}` : ''}
+
+*Link para Impressão:*
+https://imprimir-nu.vercel.app/
+    `;
+
+    const numeroWhatsApp = '+5522999500660';
+    const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, '_blank');
   };
 
   return (
@@ -79,14 +125,11 @@ const Carrinho = () => {
         <h1>Meu Carrinho</h1>
       </header>
         
-      {/* CORREÇÃO APLICADA AQUI: O layout principal agora está sempre visível */}
       <div className="carrinho-layout">
-        {/* Coluna da Esquerda: Itens do Carrinho */}
         <div className="carrinho-items-list">
           {carrinho.length === 0 ? (
-            // A mensagem de carrinho vazio agora aparece DENTRO da coluna de itens
             <div className="carrinho-vazio-interno">
-              <br />
+              <p>Seu carrinho está vazio.</p>
               <Link to="/" className="continue-comprando-btn">Adicionar Produtos</Link>
             </div>
           ) : (
@@ -113,7 +156,6 @@ const Carrinho = () => {
           )}
         </div>
 
-        {/* Coluna da Direita: Resumo e Formulário */}
         <div className="carrinho-summary">
           <h2>Resumo do Pedido</h2>
           <div className="summary-row">
@@ -155,7 +197,6 @@ const Carrinho = () => {
         </div>
       </div>
 
-      {/* Seção de Sugestões */}
       {sugestoes.length > 0 && (
         <div className="sugestoes-container">
             <h2>Você também pode gostar...</h2>
