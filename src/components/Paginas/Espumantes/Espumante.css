@@ -96,8 +96,11 @@
   border: none;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07);
   overflow: hidden;
+  
+  /* A base do alinhamento */
   display: flex;
   flex-direction: column;
+
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .espumante-card:hover {
@@ -115,6 +118,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0; /* Impede que a imagem encolha */
 }
 .espumante-card-image-container img {
   width: 100%;
@@ -126,7 +130,10 @@
   padding: 25px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  
+  /* Faz esta área crescer para preencher o espaço restante no card */
+  flex-grow: 1; 
+
   text-align: left;
 }
 
@@ -137,7 +144,12 @@
   color: #333333;
   margin: 0 0 8px 0;
   line-height: 1.3;
-  min-height: 55px;
+
+  /* CORREÇÃO 1: Permite que o título cresça, se necessário */
+  min-height: auto;
+  
+  /* CORREÇÃO 2: Faz o título ocupar o espaço vertical disponível */
+  flex-grow: 1;
 }
 
 .espumante-preco {
@@ -146,6 +158,7 @@
   color: #6b3624;
   margin-bottom: 25px;
   text-align: right;
+  flex-shrink: 0; /* Impede que o preço encolha */
 }
 
 .espumante-preco::before {
@@ -155,11 +168,10 @@
   vertical-align: middle;
 }
 
-/* --- Botão do Card --- */
-.espumante-card-button {
-  margin-top: auto;
+/* CORREÇÃO 3: O seletor correto para o botão */
+.espumante-card button {
   padding: 15px 30px;
-  background-color: #6b1e1e; /* Cor dourada/champanhe */
+  background-color: #6b1e1e;
   color: #ffffff;
   border: none;
   border-radius: 2rem;
@@ -168,14 +180,14 @@
   font-weight: 700;
   text-transform: uppercase;
   transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-  width: 100%;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(192, 160, 98, 0.3);
+  box-shadow: 0 4px 15px rgba(107, 30, 30, 0.3);
+  flex-shrink: 0; /* Impede que o botão encolha */
 }
-.espumante-card-button:hover {
-  background-color: #8a2b2b; /* Tom mais escuro no hover */
+.espumante-card button:hover {
+  background-color: #8a2b2b;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(192, 160, 98, 0.4);
+  box-shadow: 0 6px 20px rgba(138, 43, 43, 0.4);
 }
 
 .nenhum-produto {

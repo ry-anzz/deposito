@@ -91,36 +91,47 @@
   border: none;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07);
   overflow: hidden;
+  
+  /* A base do alinhamento */
   display: flex;
   flex-direction: column;
+
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .gelo-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
 }
+
 .gelo-card-image-container {
   width: 100%;
   height: 250px;
+  overflow: hidden;
   padding: 20px;
   box-sizing: border-box;
   background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0; /* Impede que a imagem encolha */
 }
 .gelo-card-image-container img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
+
 .gelo-card-content {
   padding: 25px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  
+  /* Faz esta área crescer para preencher o espaço restante no card */
+  flex-grow: 1; 
+
   text-align: left;
 }
+
 .gelo-card-content h3 {
   font-family: 'Roboto Slab', serif;
   font-size: 1.35rem;
@@ -128,23 +139,32 @@
   color: #333333;
   margin: 0 0 8px 0;
   line-height: 1.3;
-  min-height: 55px;
+
+  /* CORREÇÃO 1: Permite que o título cresça, se necessário */
+  min-height: auto;
+  
+  /* CORREÇÃO 2: Faz o título ocupar o espaço vertical disponível */
+  flex-grow: 1;
 }
+
 .gelo-preco {
   font-size: 2.1rem;
   font-weight: 800;
   color: #6b3624;
   margin-bottom: 25px;
   text-align: right;
+  flex-shrink: 0; /* Impede que o preço encolha */
 }
+
 .gelo-preco::before {
   content: "R$ ";
   font-size: 1.5rem;
   font-weight: 600;
   vertical-align: middle;
 }
-.gelo-card-button {
-  margin-top: auto;
+
+/* CORREÇÃO 3: O seletor correto para o botão */
+.gelo-card button {
   padding: 15px 30px;
   background-color: #6b1e1e;
   color: #ffffff;
@@ -155,12 +175,12 @@
   font-weight: 700;
   text-transform: uppercase;
   transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-  width: 100%;
   text-align: center;
   box-shadow: 0 4px 15px rgba(107, 30, 30, 0.3);
+  flex-shrink: 0; /* Impede que o botão encolha */
 }
-.gelo-card-button:hover {
- background-color: #8a2b2b;
+.gelo-card button:hover {
+  background-color: #8a2b2b;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(138, 43, 43, 0.4);
 }

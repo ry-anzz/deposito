@@ -86,7 +86,7 @@ const App = () => {
                       <DestaqueMercearia />
                       <DestaqueVinho />
                       <DestaqueEspumante />
-                      <Footer />
+                      
                     </>
                   }
                 />
@@ -112,6 +112,7 @@ const App = () => {
                   element={<LocaisDeEntrega />}
                 ></Route>
               </Routes>
+               <Footer />
             </>
           )}
         </div>
