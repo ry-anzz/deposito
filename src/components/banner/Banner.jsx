@@ -46,8 +46,8 @@ const Banner = () => {
 
   const banners = [
     { src: video, type: 'video', text: "", link: "/video" },
-    { src: banner02, type: 'image', text: "Para curtir o churrasco com os amigos", link: "/kits-e-promocoes" },
-    { src: banner04, type: 'image', text: "Mercearia", link: "/mercearia" }
+    { src: banner02, type: 'image', text: "", link: "/kits-e-promocoes" },
+    { src: banner04, type: 'image', text: "", link: "/mercearia" }
   ];
 
   const typingSpeed = 100;
