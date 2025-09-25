@@ -60,7 +60,7 @@ const Carrinho = () => {
       return;
     }
 
-    const idPedido = Math.random().toString(36).substring(2, 6).toUpperCase();
+    const idPedido = Math.random().toString(36).substring(2, 6);
 
     // 1. Enviar para o Firestore
     try {
