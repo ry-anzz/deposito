@@ -110,7 +110,7 @@ ${produtosMensagem}
 - *Método:* ${modoPagamento}
 ${modoPagamento === 'Dinheiro' ? `- *Troco para:* R$${troco}` : ''}
 
- *ID do Pedido:* #${idPedido};
+ *ID do Pedido:* ${idPedido};
 
 *Link para Impressão:*
 https://imprimir-nu.vercel.app/
