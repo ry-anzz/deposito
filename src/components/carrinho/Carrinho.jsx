@@ -60,7 +60,7 @@ const Carrinho = () => {
       return;
     }
 
-    const idPedido = Math.random().toString(36).substring(2, 6);
+ const idPedido = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
 
     // 1. Enviar para o Firestore
     try {
@@ -110,7 +110,7 @@ ${produtosMensagem}
 - *Método:* ${modoPagamento}
 ${modoPagamento === 'Dinheiro' ? `- *Troco para:* R$${troco}` : ''}
 
- *ID do Pedido:* ${idPedido};
+ *ID do Pedido: ${idPedido};
 
 *Link para Impressão:*
 https://imprimir-nu.vercel.app/
