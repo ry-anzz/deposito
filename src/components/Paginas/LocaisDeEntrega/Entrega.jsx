@@ -4,19 +4,20 @@ import './Entrega.css'; // Usaremos este novo ficheiro CSS
 const LocaisDeEntrega = () => {
   const locais = [
     { nome: 'Novo Cavaleiros', preco: '6,00' },
-    { nome: 'Cavaleiros', preco: '6,00' },
-    { nome: 'Granja dos Cavaleiros', preco: '6,00' },
-    { nome: 'São Marcos', preco: '6,00' },
-    { nome: 'Praia do Pecado', preco: '6,00' },
-    { nome: 'Bairro da Glória', preco: '6,00' },
-    { nome: 'Vale Encantado', preco: '8,00' },
+    { nome: 'Cavaleiros', preco: '10,00' },
+    { nome: 'Granja dos Cavaleiros', preco: '10,00' },
+    { nome: 'São Marcos', preco: '10,00' },
+    { nome: 'Praia do Pecado', preco: '10,00' },
+    { nome: 'Bairro da Glória', preco: '10,00' },
+    { nome: 'Vale Encantado', preco: '10,00' },
     { nome: 'Vale dos Cristais', preco: '10,00' },
     { nome: 'Vale das Palmeiras', preco: '10,00' },
     { nome: 'Mirante da lagoa', preco: '10,00' },
     { nome: 'Imboassica', preco: '10,00' },
     { nome: 'Guanabara', preco: '10,00' },
     { nome: 'Costa do Sol', preco: '10,00' },
-    { nome: 'Riviera', preco: '10,00' }
+    { nome: 'Riviera', preco: '10,00' },
+    { nome: 'Praia Campista', preco: '10,00' }
   ];
 
   return (
