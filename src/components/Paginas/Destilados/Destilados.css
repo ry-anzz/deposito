@@ -1,9 +1,10 @@
-@import url('https://fonts.cdnfonts.com/css/niagara-engraved?styles=17862');
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
+@import url("https://fonts.cdnfonts.com/css/niagara-engraved?styles=17862");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap");
 
 /* --- Cabeçalho da Página (Banner) --- */
 .destilados-header {
-  background: linear-gradient(rgba(0, 0, 0, 0.685), rgba(0, 0, 0, 0.641)), url(https://forbes.com.br/wp-content/uploads/2017/08/1-Whiskies-sem-idade-divulgada-is.jpg);
+  background: linear-gradient(rgba(0, 0, 0, 0.685), rgba(0, 0, 0, 0.641)),
+    url(https://forbes.com.br/wp-content/uploads/2017/08/1-Whiskies-sem-idade-divulgada-is.jpg);
   height: 90vh;
   display: flex;
   flex-direction: column;
@@ -21,14 +22,14 @@
 
 /* --- Título do Banner --- */
 .destilados-header-content h1 {
-  position: relative; 
-  font-family: 'Niagara Engraved', sans-serif;
+  position: relative;
+  font-family: "Niagara Engraved", sans-serif;
   font-size: 10rem;
   letter-spacing: 0.2em;
   font-weight: 700;
   margin: 0 0 10px 0;
   padding-bottom: 15px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   text-transform: uppercase;
 }
 
@@ -47,7 +48,7 @@
 
 /* --- Parágrafo do Banner --- */
 .destilados-header-content p {
-  font-family: 'Roboto Slab', serif;
+  font-family: "Roboto Slab", serif;
   font-size: 1rem;
   color: #d8820a;
   letter-spacing: 0.1em;
@@ -62,7 +63,7 @@
   background-color: #ffffff;
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* --- Barra de Busca --- */
@@ -104,14 +105,14 @@
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .category-button:hover {
   border-color: #6b3624;
   color: #6b3624;
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .category-button.active {
@@ -126,7 +127,7 @@
 .destilados-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 40px; 
+  gap: 40px;
 }
 
 /* --- Card de Produto --- */
@@ -136,7 +137,7 @@
   border: none;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07);
   overflow: hidden;
-  
+
   /* A base do alinhamento */
   display: flex;
   flex-direction: column;
@@ -170,15 +171,15 @@
   padding: 25px;
   display: flex;
   flex-direction: column;
-  
+
   /* Faz esta área crescer para preencher o espaço restante no card */
-  flex-grow: 1; 
+  flex-grow: 1;
 
   text-align: left;
 }
 
 .destilados-card-content h3 {
-  font-family: 'Roboto Slab', serif;
+  font-family: "Roboto Slab", serif;
   font-size: 1.35rem;
   font-weight: 700;
   color: #333333;
@@ -187,7 +188,7 @@
 
   /* CORREÇÃO 1: Permite que o título cresça, se necessário */
   min-height: auto;
-  
+
   /* CORREÇÃO 2: Faz o título ocupar o espaço vertical disponível */
   flex-grow: 1;
 }
@@ -220,7 +221,7 @@
   font-weight: 700;
   text-transform: uppercase;
   transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
- 
+
   text-align: center;
   box-shadow: 0 4px 15px rgba(107, 30, 30, 0.3);
   flex-shrink: 0; /* Impede que o botão encolha */
@@ -243,6 +244,7 @@
   .destilados-header {
     height: 60vh;
     margin-bottom: 0;
+    margin-top: 150px;
   }
   .destilados-header-content h1 {
     font-size: 5rem;
@@ -254,6 +256,6 @@
     margin-bottom: 0;
   }
   .destilados-search-input {
-      width: 90%; /* Ajusta a barra de busca em telas menores */
+    width: 90%; /* Ajusta a barra de busca em telas menores */
   }
 }

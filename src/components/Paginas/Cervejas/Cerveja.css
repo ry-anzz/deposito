@@ -74,22 +74,22 @@
 }
 
 /* --- Barra de Busca --- */
-.search-bar-container {
-  margin-bottom: 30px;
-  /* Adicionado para centralizar a barra de busca */
+.cerveja-search-bar-container {
+  margin-bottom: 40px;
   display: flex;
   justify-content: center;
 }
 
 .cerveja-search-input {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  width: 50%; /* Largura da barra de busca */
+  width: 50%;
   padding: 15px 20px;
   font-size: 1rem;
   border: 1px solid #ddd;
   border-radius: 2rem;
   box-sizing: border-box;
 }
+
 
 /* --- Filtros de Categoria (COM SELETORES ESPECÍFICOS) --- */
 .category-filter-container {
@@ -252,6 +252,7 @@
   .cerveja-header {
     height: 60vh;
     margin-bottom: 0;
+    margin-top: 150px;
   }
   .cerveja-header-content h1 {
     font-size: 5rem;

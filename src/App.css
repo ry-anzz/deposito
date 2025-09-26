@@ -3,15 +3,18 @@
   box-sizing: border-box; /* Garante que padding e bordas não aumentem o tamanho final dos elementos */
 }
 
-body {
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Previne rolagem horizontal */
   background-color: #f6f3ee;
-  /* Esta regra esconde a barra de rolagem, mas o ideal é corrigir a causa do overflow primeiro. */
-  overflow-x: hidden; 
 }
 
 img, picture, video, canvas, svg {
   display: block;
   max-width: 100%; /* Impede que imagens grandes estourem o layout */
+  height: auto;
 }
 
 /* --- ESTILO GERAL DO MODAL (Serve para todos os modais) --- */
@@ -21,7 +24,7 @@ img, picture, video, canvas, svg {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100%;   /* Corrigido: antes podia estar em 100vw */
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
   display: flex;
@@ -29,7 +32,7 @@ img, picture, video, canvas, svg {
   align-items: center;
   z-index: 2000;
   animation: fade-in 0.3s ease;
-  
+  overflow: hidden; /* previne qualquer scroll interno */
 }
 
 /* Conteúdo do Modal (O "Popup" em si) */
@@ -87,7 +90,6 @@ img, picture, video, canvas, svg {
   background-color: #c0392b;
 }
 
-
 /* --- Animações do Modal --- */
 @keyframes fade-in {
   from { opacity: 0; }
@@ -98,12 +100,25 @@ img, picture, video, canvas, svg {
   to { transform: translateY(0); opacity: 1; }
 }
 
-
 /* --- Responsividade do Modal --- */
 @media (max-width: 768px) {
   .modal-content {
     width: 90%;
     border-radius: 12px;
     margin-bottom: 0;
+    padding: 20px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .modal-content p {
+    font-size: 1rem;
+  }
+
+  .modal-content button {
+    width: 100%;
+    font-size: 15px;
   }
 }

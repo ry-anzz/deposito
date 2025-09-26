@@ -58,6 +58,11 @@
 
 
 @media (max-width: 768px){
+
+  .chirrasco-container {
+  margin-top: 150px;
+}
+
   .titulo-churrasco .h1churrasco{
     text-align: center;
     margin-top: 200px;

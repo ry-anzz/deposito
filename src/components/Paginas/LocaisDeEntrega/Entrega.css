@@ -103,6 +103,7 @@
 @media (max-width: 768px) {
   .locais-header {
     height: 50vh;
+    margin-top: 150px;
   }
   .locais-header-content h1 {
     font-size: 2rem;
