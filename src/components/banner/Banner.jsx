@@ -6,6 +6,7 @@ import banner02 from '../../assets/Banner-Novo2.gif';
 import banner03 from '../../assets/PromocaoCerveja.jpeg';
 import whiskeybanner from '../../assets/whiskeybanner.png';
 import churrascobanner from '../../assets/churrascobanner.png';
+import promocaolitrinho from '../../assets/promocaolitrinho.png';
 import video from '../../assets/video.mp4';
 import { useNavigate } from 'react-router-dom';
 import './Banner.css';
@@ -31,7 +32,7 @@ const Banner = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 5000,
+    autoplaySpeed: 3000,
     arrows: true,
     prevArrow: <ArrowLeft />,
     nextArrow: <ArrowRight />
@@ -40,7 +41,8 @@ const Banner = () => {
   const banners = [
     
    { src: whiskeybanner, type: 'image', link: "/destilados?filtro=WHISKYS" },
-    { src: churrascobanner, type: 'image', link: "/kits-e-promocoes" }
+    { src: churrascobanner, type: 'image', link: "/kits-e-promocoes" },
+    { src: promocaolitrinho, type: 'image', link: "/cervejas" }
   ];
 
   const handleBannerClick = (link) => {
