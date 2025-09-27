@@ -17,6 +17,7 @@ import Energeticos from "./components/Paginas/Energeticos/Energeticos";
 import Destilados from "./components/Paginas/Destilados/Destilados";
 import Vinhos from "./components/Paginas/Vinhos/Vinho";
 import Cervejas from "./components/Paginas/Cervejas/Cerveja";
+import Sorvete from "./components/Paginas/Sorvetes/Sorvete";
 import KitsEPromocoes from "./components/Paginas/KitsEPromocoes/KitsEPromocoes";
 import LocaisDeEntrega from "./components/Paginas/LocaisDeEntrega/Entrega";
 
@@ -95,6 +96,7 @@ const App = () => {
                 <Route path="/petshop" element={<Petshop />} />
                 <Route path="/carrinho" element={<Carrinho />} />
                 <Route path="/cervejas" element={<Cervejas />} />
+                <Route path="/sorvetes" element={<Sorvete />} />
                 <Route path="/gelos" element={<Gelos />} />
                 <Route path="/kits-e-promocoes" element={<KitsEPromocoes />} />
                 <Route

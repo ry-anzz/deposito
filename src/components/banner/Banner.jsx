@@ -38,8 +38,7 @@ const Banner = () => {
   };
 
   const banners = [
-    { src: video, type: 'video', link: "/cervejas" },
-    { src: banner02, type: 'image', link: "/cervejas" },
+    
    { src: whiskeybanner, type: 'image', link: "/destilados?filtro=WHISKYS" },
     { src: churrascobanner, type: 'image', link: "/kits-e-promocoes" }
   ];

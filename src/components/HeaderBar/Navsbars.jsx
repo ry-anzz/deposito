@@ -22,6 +22,10 @@ const navLinks = [
       { text: "Energéticos", to: "/energeticos" },
     ],
   },
+
+   { text: "Sorvetes e Picolés", to: "/Sorvetes" },
+
+  
   {
     text: "Promoções e Kits",
     isDropdown: true,
@@ -30,6 +34,7 @@ const navLinks = [
       { text: "Kit Churrasco / Promoções", to: "/kits-e-promocoes" },
     ],
   },
+
   { text: "Mercearia", to: "/mercearia" },
   { text: "Gelos", to: "/gelos" },
   { text: "PetShop", to: "/petshop" },
