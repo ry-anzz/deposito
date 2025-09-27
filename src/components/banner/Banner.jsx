@@ -7,6 +7,9 @@ import banner03 from '../../assets/PromocaoCerveja.jpeg';
 import whiskeybanner from '../../assets/whiskeybanner.png';
 import churrascobanner from '../../assets/churrascobanner.png';
 import promocaolitrinho from '../../assets/promocaolitrinho.png';
+import antartica from '../../assets/antartica.png';
+import original from '../../assets/original.png';
+import bramah from '../../assets/bramah.png';
 import video from '../../assets/video.mp4';
 import { useNavigate } from 'react-router-dom';
 import './Banner.css';
@@ -41,8 +44,12 @@ const Banner = () => {
   const banners = [
     
    { src: whiskeybanner, type: 'image', link: "/destilados?filtro=WHISKYS" },
-    { src: churrascobanner, type: 'image', link: "/kits-e-promocoes" },
-    { src: promocaolitrinho, type: 'image', link: "/cervejas" }
+    { src: promocaolitrinho, type: 'image', link: "/cervejas" },
+    { src: bramah, type: 'image', link: "/cervejas" },
+    { src: antartica, type: 'image', link: "/cervejas" },
+    { src: original, type: 'image', link: "/cervejas" },
+    { src: churrascobanner, type: 'image', link: "/kits-e-promocoes" }
+   
   ];
 
   const handleBannerClick = (link) => {
