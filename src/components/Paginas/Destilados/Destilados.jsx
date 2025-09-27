@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useCarrinho } from '../../context/CarrinhoContext'; // O contexto agora tem a função abrirModal
+import { useCarrinho } from '../../context/CarrinhoContext';
 import supabase from '../../../supabaseClient';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useSearchParams } from 'react-router-dom'; // 1. IMPORTAÇÃO NECESSÁRIA
 import 'swiper/css';
 import './Destilados.css';
 
@@ -11,7 +12,6 @@ const BotaoAdicionar = ({ produto }) => {
   const itemNoCarrinho = carrinho.find(item => item.id === produto.id);
 
   if (itemNoCarrinho) {
-    // Se o item já está no carrinho, mostra o controlo de quantidade
     return (
       <div className="quantity-control-card">
         <button onClick={() => diminuirQuantidade(produto.id)}>−</button>
@@ -21,7 +21,6 @@ const BotaoAdicionar = ({ produto }) => {
     );
   }
 
-  // Se não, mostra o botão "Adicionar"
   return (
     <button className="add-to-cart-btn" onClick={() => adicionarAoCarrinho(produto)}>
       Adicionar
@@ -29,19 +28,29 @@ const BotaoAdicionar = ({ produto }) => {
   );
 };
 
-
 const Destilados = () => {
   const [produtos, setProdutos] = useState([]);
   const [filtro, setFiltro] = useState('');
   const [categoriaFiltro, setCategoriaFiltro] = useState('DESTILADOS');
   const [carregando, setCarregando] = useState(true);
   
-  // A lógica do modal foi removida, o BotaoAdicionar usa o contexto diretamente.
+  // 2. USA O HOOK PARA LER OS PARÂMETROS DA URL
+  const [searchParams] = useSearchParams();
 
   const categoriasDestilados = ['DESTILADOS', 'LICOR', 'CACHAÇA', 'WHISKYS', 'ESPECIARIAS'];
 
+  // 3. ESTE USEEFFECT CORRE UMA VEZ E VERIFICA A URL
+  useEffect(() => {
+    const filtroDaUrl = searchParams.get('filtro'); // Procura por '?filtro=...' na URL
+    if (filtroDaUrl && categoriasDestilados.includes(filtroDaUrl)) {
+      // Se encontrou um filtro válido na URL, define-o como o filtro ativo
+      setCategoriaFiltro(filtroDaUrl);
+    }
+  }, []); // O array vazio [] garante que isto só corre uma vez
+
   useEffect(() => {
     const fetchProdutos = async () => {
+      setCarregando(true);
       const { data, error } = await supabase
         .from('produtos')
         .select('*')
@@ -118,7 +127,6 @@ const Destilados = () => {
                     <p className="destilados-preco">
                       R${produto.price ? produto.price.toFixed(2) : 'Indisponível'}
                     </p>
-                    {/* O botão antigo foi substituído pelo nosso componente inteligente */}
                     <BotaoAdicionar produto={produto} />
                 </div>
               </div>
@@ -128,10 +136,9 @@ const Destilados = () => {
           <p className="nenhum-produto">Nenhum produto encontrado com os filtros atuais.</p>
         )}
       </main>
-
-      {/* O JSX do modal foi completamente removido daqui */}
     </div>
   );
 };
 
 export default Destilados;
+
