@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useCarrinho } from '../../context/CarrinhoContext';
 import supabase from '../../../supabaseClient';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useSearchParams } from 'react-router-dom'; // 1. Importa o hook necessário
 import 'swiper/css';
 import './Produtos.css';
 
@@ -11,7 +12,6 @@ const BotaoAdicionar = ({ produto }) => {
   const itemNoCarrinho = carrinho.find(item => item.id === produto.id);
 
   if (itemNoCarrinho) {
-    // Se o item já está no carrinho, mostra o controlo de quantidade
     return (
       <div className="quantity-control-card">
         <button onClick={() => diminuirQuantidade(produto.id)}>−</button>
@@ -21,7 +21,6 @@ const BotaoAdicionar = ({ produto }) => {
     );
   }
 
-  // Se não, mostra o botão "Adicionar"
   return (
     <button className="add-to-cart-btn" onClick={() => adicionarAoCarrinho(produto)}>
       Adicionar
@@ -29,14 +28,14 @@ const BotaoAdicionar = ({ produto }) => {
   );
 };
 
-
 const Produtos = () => {
   const [produtos, setProdutos] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [filtro, setFiltro] = useState('');
   const [categoriaFiltro, setCategoriaFiltro] = useState('MERCEARIA');
   
-  // A lógica do modal foi removida
+  // 2. Usa o hook para ler os parâmetros da URL
+  const [searchParams] = useSearchParams();
 
   const categoriasComRotulo = {
     'MERCEARIA': 'MERCEARIA', 'REFRIGERANTES': 'REFRIGERANTES', 'AGUA': 'ÁGUAS',
@@ -47,6 +46,18 @@ const Produtos = () => {
   };
 
   const categoriasRelevantes = Object.keys(categoriasComRotulo);
+
+  // 3. Este useEffect corre UMA VEZ para ler o filtro da URL
+  useEffect(() => {
+    const filtroDaUrl = searchParams.get('filtro'); // Procura por '?filtro=...'
+    // A categoria na URL vem como 'limpeza', então convertemos para maiúsculas
+    const filtroFormatado = filtroDaUrl ? filtroDaUrl.toUpperCase() : null; 
+    
+    if (filtroFormatado && categoriasRelevantes.includes(filtroFormatado)) {
+      // Se encontrou um filtro válido, define-o como o filtro ativo
+      setCategoriaFiltro(filtroFormatado);
+    }
+  }, []); // O array vazio [] garante que isto só corre uma vez
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,8 +77,6 @@ const Produtos = () => {
     };
     fetchData();
   }, []);
-
-  // Funções do modal (abrirModal, fecharModal, etc.) foram removidas
   
   const handleCategoriaFiltro = (categoria) => {
     setCategoriaFiltro(categoria);
@@ -130,7 +139,6 @@ const Produtos = () => {
                     <p className="mercearia-preco">
                       R${produto.price ? produto.price.toFixed(2) : 'Indisponível'}
                     </p>
-                    {/* O botão antigo foi substituído pelo nosso componente inteligente */}
                     <BotaoAdicionar produto={produto} />
                 </div>
               </div>
@@ -140,11 +148,8 @@ const Produtos = () => {
           <p className="nenhum-produto">Nenhum produto encontrado nesta categoria.</p>
         )}
       </main>
-
-      {/* O JSX do modal foi completamente removido daqui */}
     </div>
   );
 };
 
 export default Produtos;
-  

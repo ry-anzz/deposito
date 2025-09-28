@@ -10,6 +10,8 @@ import promocaolitrinho from '../../assets/promocaolitrinho.png';
 import antartica from '../../assets/antartica.png';
 import original from '../../assets/original.png';
 import bramah from '../../assets/bramah.png';
+import saldao from '../../assets/saldao.png';
+import limpeza from '../../assets/limpeza.png';
 import video from '../../assets/video.mp4';
 import { useNavigate } from 'react-router-dom';
 import './Banner.css';
@@ -48,7 +50,9 @@ const Banner = () => {
     { src: bramah, type: 'image', link: "/cervejas" },
     { src: antartica, type: 'image', link: "/cervejas" },
     { src: original, type: 'image', link: "/cervejas" },
-    { src: churrascobanner, type: 'image', link: "/kits-e-promocoes" }
+    { src: churrascobanner, type: 'image', link: "/kits-e-promocoes" },
+    { src: saldao, type: 'image', link: "/petshop" },
+    { src: limpeza, type: 'image', link: "/mercearia?filtro=LIMPEZA" }
    
   ];
 
