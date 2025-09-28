@@ -12,6 +12,7 @@ import original from '../../assets/original.png';
 import bramah from '../../assets/bramah.png';
 import saldao from '../../assets/saldao.png';
 import limpeza from '../../assets/limpeza.png';
+import mercearia from '../../assets/mercearia.png';
 import video from '../../assets/video.mp4';
 import { useNavigate } from 'react-router-dom';
 import './Banner.css';
@@ -52,7 +53,8 @@ const Banner = () => {
     { src: original, type: 'image', link: "/cervejas" },
     { src: churrascobanner, type: 'image', link: "/kits-e-promocoes" },
     { src: saldao, type: 'image', link: "/petshop" },
-    { src: limpeza, type: 'image', link: "/mercearia?filtro=LIMPEZA" }
+    { src: limpeza, type: 'image', link: "/mercearia?filtro=LIMPEZA" },
+    { src: mercearia, type: 'image', link: "/mercearia" }
    
   ];
 

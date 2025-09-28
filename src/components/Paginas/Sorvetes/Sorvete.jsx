@@ -59,7 +59,7 @@ const Sorvetes = () => {
       {/* --- Banner do Topo --- */}
       <header className="sorvete-header">
         <div className="sorvete-header-content">
-          <h1>Sorvetes</h1>
+          <h1>Sorvetes e Picolés</h1>
           <p>SABORES CREMOSOS PARA REFRESCAR SEU DIA</p>
         </div>
       </header>

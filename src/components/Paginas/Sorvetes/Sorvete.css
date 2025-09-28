@@ -1,6 +1,6 @@
 /* --- Cabeçalho da Página (Banner) --- */
 .sorvete-header {
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_1536,h_536/https://paviloche.com.br/wp-content/uploads/2022/02/diversas-bolas-de-sorvete-baixa-1536x536.jpg);
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../../../assets/sorvetebanner.jpg');
   height: 90vh;
   display: flex;
   flex-direction: column;
@@ -10,7 +10,7 @@
   background-position: center;
   background-repeat: no-repeat;
   width: 100%;
-  color: #ff85a2; /* Cor rosa para o tema */
+  color: #ffffff; /* Cor rosa para o tema */
   padding: 20px;
   text-align: center;
   box-sizing: border-box;
@@ -44,7 +44,7 @@
 .sorvete-header-content p {
   font-family: 'Roboto Slab', serif;
   font-size: 1rem;
-  color: #ffffff;
+  color: #ff85a2;
   letter-spacing: 0.1em;
   margin: 0;
 }

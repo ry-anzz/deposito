@@ -3,8 +3,8 @@
 
 /* --- Cabeçalho da Página (Banner) --- */
 .vodka-header {
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(https://cdnm.westwing.com.br/glossary/uploads/br/2023/04/19152229/receitas-de-drinks-com-gin.jpg);
-  height: 90vh;
+   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../../../assets/vodkabanner.jpg');
+   height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;

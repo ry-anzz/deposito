@@ -3,8 +3,7 @@
 
 /* --- Cabeçalho da Página (Banner) --- */
 .vinho-header {
-  background: linear-gradient(rgba(0, 0, 0, 0.685), rgba(0, 0, 0, 0.395)),
-    url(https://revistaadega.uol.com.br/media/evolucao_do_vinho_tinto.jpeg);
+ background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../../../assets/vinhobanner.jpg');
   height: 90vh;
   display: flex;
   flex-direction: column;

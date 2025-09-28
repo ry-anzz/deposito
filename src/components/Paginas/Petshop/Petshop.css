@@ -3,7 +3,7 @@
 
 /* --- Cabeçalho da Página (Banner) --- */
 .petshop-header {
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(https://www.dalpet.com.br/uploads/imagens/racao-com-probioticos-descubra-os-benficios-101-4494.jpg);
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../../../assets/petshopbanner.jpg');
   height: 90vh;
   display: flex;
   flex-direction: column;
