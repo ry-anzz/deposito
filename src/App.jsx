@@ -18,7 +18,7 @@ import Destilados from "./components/Paginas/Destilados/Destilados";
 import Vinhos from "./components/Paginas/Vinhos/Vinho";
 import Cervejas from "./components/Paginas/Cervejas/Cerveja";
 import Sorvete from "./components/Paginas/Sorvetes/Sorvete";
-import KitsEPromocoeschurrasco from "./components/Paginas/KitsEPromocoeschurrasco/KitsEPromocoesD";
+import KitsChurrasco from "./components/Paginas/KitsChurrasco/KitsChurrasco";
 import LocaisDeEntrega from "./components/Paginas/LocaisDeEntrega/Entrega";
 
 import PromocoesEBebidas from "./components/Paginas/PromocoesEBebidas/PromocoesEBebidas";
@@ -98,7 +98,7 @@ const App = () => {
                 <Route path="/cervejas" element={<Cervejas />} />
                 <Route path="/sorvetes" element={<Sorvete />} />
                 <Route path="/gelos" element={<Gelos />} />
-                <Route path="/kits-e-promocoes" element={<KitsEPromocoeschurrasco />} />
+                <Route path="/kits-e-promocoes" element={<KitsChurrasco />} />
                 <Route
                   path="/promocoes-e-bebidas"
                   element={<PromocoesEBebidas />}
