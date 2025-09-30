@@ -4,15 +4,19 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import banner02 from '../../assets/Banner-Novo2.gif';
 import banner03 from '../../assets/PromocaoCerveja.jpeg';
-import whiskeybanner from '../../assets/whiskeybanner.png';
-import churrascobanner from '../../assets/churrascobanner.png';
-import promocaolitrinho from '../../assets/promocaolitrinho.png';
-import antartica from '../../assets/antartica.png';
-import original from '../../assets/original.png';
-import bramah from '../../assets/bramah.png';
+// import whiskeybanner from '../../assets/whiskeybanner.png';
+// import churrascobanner from '../../assets/churrascobanner.png';
+// import promocaolitrinho from '../../assets/promocaolitrinho.png';
+// import antartica from '../../assets/antartica.png';
+// import original from '../../assets/original.png';
+// import bramah from '../../assets/bramah.png';
 import saldao from '../../assets/saldao.png';
-import limpeza from '../../assets/limpeza.png';
+// import limpeza from '../../assets/limpeza.png';
 import mercearia from '../../assets/mercearia.png';
+import ofertastrincando from '../../assets/ofertastrincando.png';
+import vinhos from '../../assets/vinhos.png';
+import explosao from '../../assets/explosao.png';
+import churras from '../../assets/churras.png';
 import video from '../../assets/video.mp4';
 import { useNavigate } from 'react-router-dom';
 import './Banner.css';
@@ -46,14 +50,18 @@ const Banner = () => {
 
   const banners = [
     
-   { src: whiskeybanner, type: 'image', link: "/destilados?filtro=WHISKYS" },
-    { src: promocaolitrinho, type: 'image', link: "/cervejas" },
-    { src: bramah, type: 'image', link: "/cervejas" },
-    { src: antartica, type: 'image', link: "/cervejas" },
-    { src: original, type: 'image', link: "/cervejas" },
-    { src: churrascobanner, type: 'image', link: "/kits-e-promocoes" },
+  //  { src: whiskeybanner, type: 'image', link: "/destilados?filtro=WHISKYS" },
+    // { src: promocaolitrinho, type: 'image', link: "/cervejas" },
+    // { src: bramah, type: 'image', link: "/cervejas" },
+    // { src: antartica, type: 'image', link: "/cervejas" },
+    // { src: original, type: 'image', link: "/cervejas" },
+    // { src: churrascobanner, type: 'image', link: "/kits-e-promocoes" },
+    { src: ofertastrincando, type: 'image', link: "/cervejas" },
+    { src: explosao, type: 'image', link: "/destilados" },
+    { src: vinhos, type: 'image', link: "/vinhos" },
+    { src: churras, type: 'image', link: "/kits-e-promocoes" },
     { src: saldao, type: 'image', link: "/petshop" },
-    { src: limpeza, type: 'image', link: "/mercearia?filtro=LIMPEZA" },
+    // { src: limpeza, type: 'image', link: "/mercearia?filtro=LIMPEZA" },
     { src: mercearia, type: 'image', link: "/mercearia" }
    
   ];
