@@ -30,6 +30,7 @@ const Carrinho = () => {
   const [cupom, setCupom] = useState("");
   const [desconto, setDesconto] = useState(0); // porcentagem
   const [mensagemCupom, setMensagemCupom] = useState("");
+  const [freteGratisAtivo, setFreteGratisAtivo] = useState(false);
 
   const locais = [
     { nome: "Selecione o Bairro", valor: 0 },
@@ -78,7 +79,13 @@ const Carrinho = () => {
     const nomeLocal = e.target.value;
     const local = locais.find((l) => l.nome === nomeLocal);
     setLocalSelecionado(nomeLocal);
-    setValorEntrega(local ? local.valor : 0);
+
+    // Se frete grátis estiver ativo, mantemos 0 independente do bairro
+    if (freteGratisAtivo) {
+      setValorEntrega(0);
+    } else {
+      setValorEntrega(local ? local.valor : 0);
+    }
   };
 
   // --- VALIDAR CUPOM ---
@@ -88,10 +95,13 @@ const Carrinho = () => {
       return;
     }
 
+    const cupomDigitado = cupom.trim().toUpperCase();
+
+    // Consulta o banco para verificar se o cupom existe
     const { data, error } = await supabase
       .from("cupom")
-      .select("valor")
-      .ilike("nome", cupom.trim()); // case insensitive
+      .select("nome, valor")
+      .ilike("nome", cupom.trim()); // busca case-insensitive
 
     if (error) {
       console.error(error);
@@ -99,13 +109,34 @@ const Carrinho = () => {
       return;
     }
 
-    if (data && data.length > 0) {
-      setDesconto(data[0].valor);
-      setMensagemCupom(`✅ Cupom aplicado! Desconto de ${data[0].valor}%`);
-    } else {
-      setDesconto(0);
+    if (!data || data.length === 0) {
+      // Cupom não existe
       setMensagemCupom("❌ Cupom inválido ou expirado.");
+      setDesconto(0);
+      setFreteGratisAtivo(false);
+      // restaura o frete ao valor do bairro atual
+      const localAtual = locais.find((l) => l.nome === localSelecionado);
+      setValorEntrega(localAtual ? localAtual.valor : 0);
+      return;
     }
+
+    // Se for FRETEGRATIS (apenas verifica o nome digitado), ativa frete grátis
+    if (cupomDigitado === "FRETEGRATIS") {
+      setFreteGratisAtivo(true);
+      setDesconto(0);
+      setValorEntrega(0);
+      setMensagemCupom("🚚 Frete grátis aplicado!");
+      return;
+    }
+
+    // Caso contrário, aplica desconto percentual vindo do BD
+    const valorCupom = Number(data[0].valor) || 0;
+    setFreteGratisAtivo(false);
+    setDesconto(valorCupom);
+    // garante que o valor do frete esteja de acordo com o bairro (se houver)
+    const localAtual = locais.find((l) => l.nome === localSelecionado);
+    setValorEntrega(localAtual ? localAtual.valor : 0);
+    setMensagemCupom(`✅ Cupom aplicado! Desconto de ${valorCupom}%`);
   };
 
   // --- ENVIAR PEDIDO ---
@@ -120,11 +151,16 @@ const Carrinho = () => {
     const idPedido = Math.floor(Math.random() * 10000).toString().padStart(4, "0");
 
     try {
+      // montar info do cupom para salvar
+      let cupomInfo = null;
+      if (desconto > 0) cupomInfo = { nome: cupom, desconto, tipo: "desconto" };
+      else if (freteGratisAtivo) cupomInfo = { nome: cupom, tipo: "frete" };
+
       const pedido = {
         idPedido,
         cliente: { nome, rua, numero, referencia, local: localSelecionado, valorEntrega },
         pagamento: { modo: modoPagamento, troco: modoPagamento === "Dinheiro" ? troco : null },
-        cupom: desconto > 0 ? { nome: cupom, desconto } : null,
+        cupom: cupomInfo,
         produtos: carrinho.map((p) => ({
           id: p.id,
           nome: p.name,
@@ -155,7 +191,6 @@ const Carrinho = () => {
       )
       .join("\n\n");
 
-    const entregaMensagem = `Taxa de Entrega: R$${valorEntrega.toFixed(2)}`;
     const descontoMensagem =
       desconto > 0
         ? `Desconto (${desconto}%): -R$${(calcularSubtotal() * (desconto / 100)).toFixed(2)}\n`
@@ -172,7 +207,7 @@ ${produtosMensagem}
 -----------------------------------
 *Resumo:*
 - Subtotal: R$${calcularSubtotal().toFixed(2)}
-- ${descontoMensagem}${entregaMensagem}
+- ${descontoMensagem}Taxa de Entrega: R$${valorEntrega.toFixed(2)}
 - ${totalMensagem}
 
 *Detalhes da Entrega:*
@@ -184,7 +219,7 @@ ${produtosMensagem}
 *Pagamento:*
 - *Método:* ${modoPagamento}
 ${modoPagamento === "Dinheiro" ? `- *Troco para:* R$${troco}` : ""}
-${desconto > 0 ? `\n*Cupom aplicado:* ${cupom} (${desconto}%)` : ""}
+${(desconto > 0 || freteGratisAtivo) ? `\n*Cupom aplicado:* ${cupom} ${freteGratisAtivo ? "(Frete grátis)" : `(${desconto}%)`}` : ""}
 
 *ID do Pedido:* ${idPedido}
 
@@ -317,8 +352,7 @@ https://imprimir-nu.vercel.app/
                 </option>
               ))}
             </select>
-            
-            
+
             <select
               value={modoPagamento}
               onChange={(e) => setModoPagamento(e.target.value)}
