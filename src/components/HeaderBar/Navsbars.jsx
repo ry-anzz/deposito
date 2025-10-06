@@ -1,10 +1,9 @@
-// Navsbars.js - VERSÃO ATUALIZADA COM BARRA DE CUPOM
-
 import React, { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { NavLink } from "react-router-dom";
 import "swiper/css";
 import logo from "../../assets/logo.png";
+import supabase from "../../supabaseClient"; // Importa o Supabase
 import "./Navsbars.css";
 
 // Estrutura de dados para os links
@@ -22,10 +21,8 @@ const navLinks = [
       { text: "Energéticos", to: "/energeticos" },
     ],
   },
-
-   { text: "Sorvetes e Picolés", to: "/Sorvetes" },
-
-  
+  // CORREÇÃO: O link para a página de sorvetes deve ser em minúsculas
+  { text: "Sorvetes e Picolés", to: "/sorvetes" },
   {
     text: "Promoções e Kits",
     isDropdown: true,
@@ -34,7 +31,6 @@ const navLinks = [
       { text: "Kit Churrasco / Promoções", to: "/kits-e-promocoes" },
     ],
   },
-
   { text: "Mercearia", to: "/mercearia" },
   { text: "Gelos", to: "/gelos" },
   { text: "PetShop", to: "/petshop" },
@@ -44,11 +40,44 @@ const navLinks = [
 
 const Navsbars = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navRef = useRef(null);
+  // 1. Estado para guardar o texto do cupão
+  const [cupomTexto, setCupomTexto] = useState("BOAS COMPRAS 💰");
 
   const handleDropdownToggle = (index) => {
     setOpenDropdown(openDropdown === index ? null : index);
   };
+
+  // 2. useEffect para buscar o cupão do Supabase quando o componente carregar
+  useEffect(() => {
+    const fetchCupom = async () => {
+      try {
+        // Busca o cupão mais recente da sua tabela 'cupom'
+        const { data, error } = await supabase
+          .from("cupom")
+          .select("nome, valor")
+         
+          .limit(1)
+          .single();
+
+        if (error) {
+          console.warn("Nenhum cupão encontrado, a usar mensagem padrão.");
+          return; // Mantém a mensagem "BOAS COMPRAS"
+        }
+
+        if (data) {
+          // Formata o texto para ser exibido na barra
+          const textoFormatado = `CUPOM: ${data.nome} - ${data.valor}% OFF! 💰`;
+          setCupomTexto(textoFormatado);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar cupão:", error);
+      }
+    };
+
+    fetchCupom();
+  }, []); // O array vazio [] garante que a busca só ocorre uma vez
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -57,37 +86,33 @@ const Navsbars = () => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "auto";
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "auto";
     };
-  }, []);
+  }, [isMobileMenuOpen]);
+
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
-    // O ref foi movido para o container principal do header
     <header className="header-container" ref={navRef}>
-      {/* ===== INÍCIO DA NOVA BARRA DE CUPOM ===== */}
+      <div className="coupon-bar">
+        {/* 3. O texto agora vem do estado 'cupomTexto' */}
+        <div className="coupon-text">
+          <span>{cupomTexto}</span>
+          <span>{cupomTexto}</span>
+          <span>{cupomTexto}</span>
+          <span>{cupomTexto}</span>
+        </div>
+        <div className="coupon-text">
+          <span>{cupomTexto}</span>
+          <span>{cupomTexto}</span>
+          <span>{cupomTexto}</span>
+          <span>{cupomTexto}</span>
+        </div>
+      </div>
 
-
-{/* ===== INÍCIO DA BARRA DE CUPOM ===== */}
-<div className="coupon-bar">
-  {/* AGORA TEMOS DUAS DIVS IGUAIS, CADA UMA COM SEUS SPANS */}
-  <div className="coupon-text">
-    <span>BOAS COMPRAS 💰</span>
-    <span>BOAS COMPRAS 💰</span>
-    <span>BOAS COMPRAS 💰</span>
-    <span>BOAS COMPRAS 💰</span>
-  </div>
-  <div className="coupon-text">
-    <span>BOAS COMPRAS 💰</span>
-    <span>BOAS COMPRAS 💰</span>
-    <span>BOAS COMPRAS 💰</span>
-    <span>BOAS COMPRAS 💰</span>
-  </div>
-</div>
-{/* ===== FIM DA BARRA DE CUPOM ===== */}
-      {/* ===== FIM DA NOVA BARRA DE CUPOM ===== */}
-
-      {/* Container para o conteúdo principal da navegação (logo + links) */}
       <div className="main-nav-content">
         <div className="logo-container">
           <NavLink to="/">

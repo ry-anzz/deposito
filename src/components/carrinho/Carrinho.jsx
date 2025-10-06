@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useCarrinho } from "../context/CarrinhoContext";
 import supabase from "../../supabaseClient";
-import { db } from "../../../firebase"; // Verifique se este caminho está correto
+import { db } from "../../../firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import "./Carrinho.css";
@@ -13,17 +13,23 @@ const Carrinho = () => {
     diminuirQuantidade,
     removerDoCarrinho,
   } = useCarrinho();
+
   const [sugestoes, setSugestoes] = useState([]);
 
-  // --- ESTADOS DO FORMULÁRIO (DA SUA VERSÃO ANTERIOR) ---
+  // --- FORM STATES ---
   const [nome, setNome] = useState("");
   const [rua, setRua] = useState("");
-  const [numero, setNumero] = useState(""); // Renomeado de 'cep' para 'numero' para maior clareza
+  const [numero, setNumero] = useState("");
   const [referencia, setReferencia] = useState("");
   const [modoPagamento, setModoPagamento] = useState("");
   const [troco, setTroco] = useState("");
   const [localSelecionado, setLocalSelecionado] = useState("");
   const [valorEntrega, setValorEntrega] = useState(0);
+
+  // --- CUPOM STATES ---
+  const [cupom, setCupom] = useState("");
+  const [desconto, setDesconto] = useState(0); // porcentagem
+  const [mensagemCupom, setMensagemCupom] = useState("");
 
   const locais = [
     { nome: "Selecione o Bairro", valor: 0 },
@@ -47,12 +53,7 @@ const Carrinho = () => {
 
   useEffect(() => {
     const fetchSugestoes = async () => {
-      const categoriasSugeridas = [
-        "MERCEARIA",
-        "GELO",
-        "REFRIGERANTES",
-        "DOCES",
-      ];
+      const categoriasSugeridas = ["MERCEARIA", "GELO", "REFRIGERANTES", "DOCES"];
       const { data, error } = await supabase
         .from("produtos")
         .select("*")
@@ -64,12 +65,14 @@ const Carrinho = () => {
   }, []);
 
   const calcularSubtotal = () =>
-    carrinho.reduce(
-      (total, produto) => total + produto.price * produto.quantidade,
-      0
-    );
+    carrinho.reduce((total, produto) => total + produto.price * produto.quantidade, 0);
 
-  const calcularTotal = () => calcularSubtotal() + valorEntrega;
+  // Total com desconto
+  const calcularTotal = () => {
+    const subtotal = calcularSubtotal();
+    const descontoAplicado = subtotal * (desconto / 100);
+    return subtotal - descontoAplicado + valorEntrega;
+  };
 
   const handleLocalChange = (e) => {
     const nomeLocal = e.target.value;
@@ -78,52 +81,71 @@ const Carrinho = () => {
     setValorEntrega(local ? local.valor : 0);
   };
 
-  // --- LÓGICA DE ENVIO DO PEDIDO (DA SUA VERSÃO ANTERIOR) ---
+  // --- VALIDAR CUPOM ---
+  const aplicarCupom = async () => {
+    if (!cupom.trim()) {
+      setMensagemCupom("Digite um cupom válido.");
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("cupom")
+      .select("valor")
+      .ilike("nome", cupom.trim()); // case insensitive
+
+    if (error) {
+      console.error(error);
+      setMensagemCupom("Erro ao verificar cupom. Tente novamente.");
+      return;
+    }
+
+    if (data && data.length > 0) {
+      setDesconto(data[0].valor);
+      setMensagemCupom(`✅ Cupom aplicado! Desconto de ${data[0].valor}%`);
+    } else {
+      setDesconto(0);
+      setMensagemCupom("❌ Cupom inválido ou expirado.");
+    }
+  };
+
+  // --- ENVIAR PEDIDO ---
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (carrinho.length === 0) {
       alert("Seu carrinho está vazio!");
       return;
     }
 
-    const idPedido = Math.floor(Math.random() * 10000)
-      .toString()
-      .padStart(4, "0");
+    const idPedido = Math.floor(Math.random() * 10000).toString().padStart(4, "0");
 
-    // 1. Enviar para o Firestore
     try {
       const pedido = {
         idPedido,
-        cliente: {
-          nome,
-          rua,
-          numero,
-          referencia,
-          local: localSelecionado,
-          valorEntrega,
-        },
-        pagamento: {
-          modo: modoPagamento,
-          troco: modoPagamento === "Dinheiro" ? troco : null,
-        },
+        cliente: { nome, rua, numero, referencia, local: localSelecionado, valorEntrega },
+        pagamento: { modo: modoPagamento, troco: modoPagamento === "Dinheiro" ? troco : null },
+        cupom: desconto > 0 ? { nome: cupom, desconto } : null,
         produtos: carrinho.map((p) => ({
           id: p.id,
           nome: p.name,
           quantidade: p.quantidade,
           preco: p.price,
         })),
+        subtotal: calcularSubtotal(),
+        descontoPercentual: desconto,
         total: calcularTotal(),
         data: new Date().toISOString(),
       };
+
       await addDoc(collection(db, "pedidos"), pedido);
       console.log("Pedido enviado ao Firestore com sucesso.");
     } catch (err) {
       console.error("Erro ao enviar pedido para o Firestore:", err);
       alert("Ocorreu um erro ao salvar seu pedido. Tente novamente.");
-      return; // Interrompe se o Firestore falhar
+      return;
     }
 
-    // 2. Enviar para o WhatsApp
+    // WhatsApp
     const produtosMensagem = carrinho
       .map(
         (p) =>
@@ -134,6 +156,11 @@ const Carrinho = () => {
       .join("\n\n");
 
     const entregaMensagem = `Taxa de Entrega: R$${valorEntrega.toFixed(2)}`;
+    const descontoMensagem =
+      desconto > 0
+        ? `Desconto (${desconto}%): -R$${(calcularSubtotal() * (desconto / 100)).toFixed(2)}\n`
+        : "";
+
     const totalMensagem = `*Total do Pedido: R$${calcularTotal().toFixed(2)}*`;
 
     const mensagem = `
@@ -145,7 +172,7 @@ ${produtosMensagem}
 -----------------------------------
 *Resumo:*
 - Subtotal: R$${calcularSubtotal().toFixed(2)}
-- ${entregaMensagem}
+- ${descontoMensagem}${entregaMensagem}
 - ${totalMensagem}
 
 *Detalhes da Entrega:*
@@ -157,17 +184,16 @@ ${produtosMensagem}
 *Pagamento:*
 - *Método:* ${modoPagamento}
 ${modoPagamento === "Dinheiro" ? `- *Troco para:* R$${troco}` : ""}
+${desconto > 0 ? `\n*Cupom aplicado:* ${cupom} (${desconto}%)` : ""}
 
- *ID do Pedido: ${idPedido};
+*ID do Pedido:* ${idPedido}
 
 *Link para Impressão:*
 https://imprimir-nu.vercel.app/
     `;
 
     const numeroWhatsApp = "+5522999500660";
-    const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(
-      mensagem
-    )}`;
+    const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
     window.open(url, "_blank");
   };
 
@@ -189,30 +215,18 @@ https://imprimir-nu.vercel.app/
           ) : (
             carrinho.map((produto) => (
               <div key={produto.id} className="carrinho-item-card">
-                <img
-                  src={produto.imagem_url}
-                  alt={produto.name}
-                  className="carrinho-item-img"
-                />
+                <img src={produto.imagem_url} alt={produto.name} className="carrinho-item-img" />
                 <div className="carrinho-item-details">
                   <span className="item-name">{produto.name}</span>
-                  <span className="item-price">
-                    R$ {produto.price.toFixed(2)}
-                  </span>
+                  <span className="item-price">R$ {produto.price.toFixed(2)}</span>
                 </div>
                 <div className="carrinho-item-quantity">
-                  <button onClick={() => diminuirQuantidade(produto.id)}>
-                    −
-                  </button>
+                  <button onClick={() => diminuirQuantidade(produto.id)}>−</button>
                   <span>{produto.quantidade}</span>
-                  <button onClick={() => adicionarAoCarrinho(produto)}>
-                    +
-                  </button>
+                  <button onClick={() => adicionarAoCarrinho(produto)}>+</button>
                 </div>
                 <div className="carrinho-item-total">
-                  <span>
-                    R$ {(produto.price * produto.quantidade).toFixed(2)}
-                  </span>
+                  <span>R$ {(produto.price * produto.quantidade).toFixed(2)}</span>
                 </div>
                 <button
                   className="carrinho-item-remove"
@@ -231,15 +245,39 @@ https://imprimir-nu.vercel.app/
             <span>Subtotal</span>
             <span>R$ {calcularSubtotal().toFixed(2)}</span>
           </div>
+
+          {desconto > 0 && (
+            <div className="summary-row">
+              <span>Desconto ({desconto}%)</span>
+              <span>- R$ {(calcularSubtotal() * (desconto / 100)).toFixed(2)}</span>
+            </div>
+          )}
+
           <div className="summary-row">
             <span>Taxa de Entrega</span>
             <span>R$ {valorEntrega.toFixed(2)}</span>
           </div>
+
           <div className="summary-row total">
             <span>Total</span>
             <span>R$ {calcularTotal().toFixed(2)}</span>
           </div>
 
+          {/* --- CAMPO DE CUPOM --- */}
+          <div className="cupom-container">
+            <input
+              type="text"
+              placeholder="Insira seu cupom"
+              value={cupom}
+              onChange={(e) => setCupom(e.target.value)}
+            />
+            <button type="button" onClick={aplicarCupom}>
+              Aplicar
+            </button>
+            {mensagemCupom && <p className="mensagem-cupom">{mensagemCupom}</p>}
+          </div>
+
+          {/* --- FORM --- */}
           <form onSubmit={handleSubmit} className="checkout-form">
             <h3>Detalhes da Entrega e Pagamento</h3>
             <input
@@ -272,17 +310,15 @@ https://imprimir-nu.vercel.app/
               value={referencia}
               onChange={(e) => setReferencia(e.target.value)}
             />
-            <select
-              value={localSelecionado}
-              onChange={handleLocalChange}
-              required
-            >
+            <select value={localSelecionado} onChange={handleLocalChange} required>
               {locais.map((local) => (
                 <option key={local.nome} value={local.nome}>
                   {local.nome}
                 </option>
               ))}
             </select>
+            
+            
             <select
               value={modoPagamento}
               onChange={(e) => setModoPagamento(e.target.value)}
@@ -319,9 +355,7 @@ https://imprimir-nu.vercel.app/
                 <h3>{sugestao.name}</h3>
                 <div className="sugestao-footer">
                   <span>R$ {sugestao.price.toFixed(2)}</span>
-                  <button onClick={() => adicionarAoCarrinho(sugestao)}>
-                    +
-                  </button>
+                  <button onClick={() => adicionarAoCarrinho(sugestao)}>+</button>
                 </div>
               </div>
             ))}

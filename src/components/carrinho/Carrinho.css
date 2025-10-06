@@ -286,6 +286,69 @@
   box-shadow: 0 4px 15px rgba(107, 54, 36, 0.3);
 }
 
+/* --- Campo de Cupom --- */
+.cupom-container {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  align-items: center;
+}
+
+.cupom-container input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.cupom-container input:focus {
+  border-color: #6b3624;
+  box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
+}
+
+.cupom-container button {
+  background-color: #6b3624;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cupom-container button:hover {
+  background-color: #482519;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.cupom-container button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.mensagem-cupom {
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.mensagem-cupom::before {
+  content: "• ";
+}
+
+.mensagem-cupom {
+  color: #444;
+}
+
+.mensagem-cupom:has(+ p:contains('✅')) {
+  color: #2e7d32;
+}
+
 
 /* --- Responsividade --- */
 @media (max-width: 1024px) {
