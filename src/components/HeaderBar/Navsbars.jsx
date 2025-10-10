@@ -23,9 +23,10 @@ const navLinks = [
       { text: "Vinhos", to: "/vinhos" },
       { text: "Espumantes", to: "/espumantes" },
       { text: "Energéticos", to: "/energeticos" },
-      { text: "Água", to: "/mercearia?filtro=AGUA" }
+      { text: "Água", to: "/mercearia?filtro=AGUA" },
     ],
   },
+  { text: "Mercearia", to: "/mercearia" },
   { text: "Sorvetes e Picolés", to: "/sorvetes" },
   {
     text: "Promoções e Kits",
@@ -35,7 +36,7 @@ const navLinks = [
       { text: "Kit Churrasco / Promoções", to: "/kits-e-promocoes" },
     ],
   },
-  { text: "Mercearia", to: "/mercearia" },
+
   { text: "Gelos", to: "/gelos" },
   { text: "PetShop", to: "/petshop" },
   { text: "Locais de Entrega", to: "/locais-de-entrega" },
@@ -111,10 +112,12 @@ const Navsbars = () => {
 
       <div className="main-nav-content">
         <div className="logo-container">
-          <NavLink to="/"><img src={logo} alt="Logo" className="logo-img" /></NavLink>
+          <NavLink to="/">
+            <img src={logo} alt="Logo" className="logo-img" />
+          </NavLink>
         </div>
 
-       <nav className="navsbars">
+        <nav className="navsbars">
           <Swiper
             slidesPerView="auto"
             spaceBetween={55}
@@ -124,7 +127,9 @@ const Navsbars = () => {
             {navLinks.map((link, index) => (
               <SwiperSlide
                 key={link.to || index}
-                className={`nav-slide ${openDropdown === index ? "dropdown-active" : ""}`}
+                className={`nav-slide ${
+                  openDropdown === index ? "dropdown-active" : ""
+                }`}
               >
                 {link.isDropdown ? (
                   <div className="nav-item dropdown">
@@ -134,7 +139,11 @@ const Navsbars = () => {
                     >
                       {link.text} <span className="arrow"></span>
                     </span>
-                    <div className={`dropdown-menu ${openDropdown === index ? "show" : ""}`}>
+                    <div
+                      className={`dropdown-menu ${
+                        openDropdown === index ? "show" : ""
+                      }`}
+                    >
                       {link.subLinks.map((subLink, subIndex) => (
                         <NavLink
                           key={subIndex}
@@ -151,7 +160,9 @@ const Navsbars = () => {
                   <div className="nav-item">
                     <NavLink
                       to={link.to}
-                      className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+                      className={({ isActive }) =>
+                        isActive ? "nav-link active" : "nav-link"
+                      }
                     >
                       {link.text}
                     </NavLink>
