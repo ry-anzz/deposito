@@ -3,181 +3,137 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { NavLink } from "react-router-dom";
 import "swiper/css";
 import logo from "../../assets/logo.png";
-import supabase from "../../supabaseClient"; // Importa o Supabase
+import supabase from "../../supabaseClient";
 import "./Navsbars.css";
 
-// Estrutura de dados para os links
-const navLinks = [
-  { text: "Home", to: "/" },
-  {
-    text: "Bebidas",
-    isDropdown: true,
-    subLinks: [
-      { text: "Cervejas", to: "/cervejas" },
-      { text: "Destilados", to: "/destilados" },
-      { text: "Vodkas/Gin", to: "/vodkas" },
-      { text: "Vinhos", to: "/vinhos" },
-      { text: "Espumantes", to: "/espumantes" },
-      { text: "Energéticos", to: "/energeticos" },
-    ],
-  },
-  // CORREÇÃO: O link para a página de sorvetes deve ser em minúsculas
-  { text: "Sorvetes e Picolés", to: "/sorvetes" },
-  {
-    text: "Promoções e Kits",
-    isDropdown: true,
-    subLinks: [
-      { text: "Promoções / Kits Bebidas", to: "/promocoes-e-bebidas" },
-      { text: "Kit Churrasco / Promoções", to: "/kits-e-promocoes" },
-    ],
-  },
-  { text: "Mercearia", to: "/mercearia" },
-  { text: "Gelos", to: "/gelos" },
-  { text: "PetShop", to: "/petshop" },
-  { text: "Locais de Entrega", to: "/locais-de-entrega" },
-  { text: "Carrinho", to: "/carrinho" },
-];
 
-const Navsbars = () => {
-  const [openDropdown, setOpenDropdown] = useState(null);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const navRef = useRef(null);
-  // 1. Estado para guardar o texto do cupão
-  const [cupomTexto, setCupomTexto] = useState("BOAS COMPRAS 💰");
 
-  const handleDropdownToggle = (index) => {
-    setOpenDropdown(openDropdown === index ? null : index);
-  };
+// --- SUB-COMPONENTE PARA O BOTÃO INTELIGENTE ---
+const BotaoAdicionar = ({ produto }) => {
+  const { carrinho, adicionarAoCarrinho, diminuirQuantidade } = useCarrinho();
+  const itemNoCarrinho = carrinho.find(item => item.id === produto.id);
 
-  // 2. useEffect para buscar o cupão do Supabase quando o componente carregar
-  useEffect(() => {
-    const fetchCupom = async () => {
-      try {
-        // Busca o cupão mais recente da sua tabela 'cupom'
-        const { data, error } = await supabase
-          .from("cupom")
-          .select("nome, valor")
-         
-          .limit(1)
-          .single();
-
-        if (error) {
-          console.warn("Nenhum cupão encontrado, a usar mensagem padrão.");
-          return; // Mantém a mensagem "BOAS COMPRAS"
-        }
-
-        if (data) {
-          // Formata o texto para ser exibido na barra
-          const textoFormatado = `CUPOM: ${data.nome} - ${data.valor}% OFF! 💰`;
-          setCupomTexto(textoFormatado);
-        }
-      } catch (error) {
-        console.error("Erro ao buscar cupão:", error);
-      }
-    };
-
-    fetchCupom();
-  }, []); // O array vazio [] garante que a busca só ocorre uma vez
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (navRef.current && !navRef.current.contains(event.target)) {
-        setOpenDropdown(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "auto";
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.body.style.overflow = "auto";
-    };
-  }, [isMobileMenuOpen]);
-
-  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+  if (itemNoCarrinho) {
+    return (
+      <div className="quantity-control-card">
+        <button onClick={() => diminuirQuantidade(produto.id)}>−</button>
+        <span>{itemNoCarrinho.quantidade}</span>
+        <button onClick={() => adicionarAoCarrinho(produto)}>+</button>
+      </div>
+    );
+  }
 
   return (
-    <header className="header-container" ref={navRef}>
-      <div className="coupon-bar">
-        {/* 3. O texto agora vem do estado 'cupomTexto' */}
-        <div className="coupon-text">
-          <span>{cupomTexto}</span>
-          <span>{cupomTexto}</span>
-          <span>{cupomTexto}</span>
-          <span>{cupomTexto}</span>
-        </div>
-        <div className="coupon-text">
-          <span>{cupomTexto}</span>
-          <span>{cupomTexto}</span>
-          <span>{cupomTexto}</span>
-          <span>{cupomTexto}</span>
-        </div>
-      </div>
-
-      <div className="main-nav-content">
-        <div className="logo-container">
-          <NavLink to="/">
-            <img src={logo} alt="Logo" className="logo-img" />
-          </NavLink>
-        </div>
-
-        <nav className="navsbars">
-          <Swiper
-            slidesPerView="auto"
-            spaceBetween={55}
-            grabCursor={true}
-            preventClicks={false}
-          >
-            {navLinks.map((link, index) => (
-              <SwiperSlide
-                key={index}
-                className={`nav-slide ${
-                  openDropdown === index ? "dropdown-active" : ""
-                }`}
-              >
-                {link.isDropdown ? (
-                  <div className="nav-item dropdown">
-                    <span
-                      className="nav-link dropdown-toggle"
-                      onClick={() => handleDropdownToggle(index)}
-                    >
-                      {link.text} <span className="arrow"></span>
-                    </span>
-                    <div
-                      className={`dropdown-menu ${
-                        openDropdown === index ? "show" : ""
-                      }`}
-                    >
-                      {link.subLinks.map((subLink, subIndex) => (
-                        <NavLink
-                          key={subIndex}
-                          to={subLink.to}
-                          className="dropdown-item"
-                          onClick={() => setOpenDropdown(null)}
-                        >
-                          {subLink.text}
-                        </NavLink>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="nav-item">
-                    <NavLink
-                      to={link.to}
-                      className={({ isActive }) =>
-                        isActive ? "nav-link active" : "nav-link"
-                      }
-                    >
-                      {link.text}
-                    </NavLink>
-                  </div>
-                )}
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </nav>
-      </div>
-    </header>
+    <button className="add-to-cart-btn" onClick={() => adicionarAoCarrinho(produto)}>
+      Adicionar
+    </button>
   );
 };
 
-export default Navsbars;
+const Destilados = () => {
+  const [produtos, setProdutos] = useState([]);
+  const [filtro, setFiltro] = useState('');
+  const [categoriaFiltro, setCategoriaFiltro] = useState('DESTILADOS');
+  const [carregando, setCarregando] = useState(true);
+  
+  const [searchParams] = useSearchParams();
+
+  const categoriasDestilados = ['DESTILADOS', 'LICOR', 'CACHAÇA', 'WHISKYS', 'ESPECIARIAS'];
+
+  // CORREÇÃO APLICADA AQUI:
+  useEffect(() => {
+    const filtroDaUrl = searchParams.get('filtro');
+    if (filtroDaUrl && categoriasDestilados.includes(filtroDaUrl)) {
+      setCategoriaFiltro(filtroDaUrl);
+    }
+  }, [searchParams]); // O useEffect agora "ouve" as mudanças nos parâmetros da URL
+
+  useEffect(() => {
+    const fetchProdutos = async () => {
+      setCarregando(true);
+      const { data, error } = await supabase
+        .from('produtos')
+        .select('*')
+        .in('category', categoriasDestilados);
+
+      if (!error) setProdutos(data);
+      setCarregando(false);
+    };
+    fetchProdutos();
+  }, []);
+
+  const handleCategoriaFiltro = (categoria) => {
+    setCategoriaFiltro(categoria);
+  };
+
+  const produtosFiltrados = produtos
+    .filter((produto) => {
+      const matchesName = produto.name.toLowerCase().includes(filtro.toLowerCase());
+      const matchesCategoria = produto.category.toLowerCase() === categoriaFiltro.toLowerCase();
+      return matchesName && matchesCategoria;
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  return (
+    <div className="destilados-page-container">
+      <header className="destilados-header">
+        <div className="destilados-header-content">
+          <h1>Destilados</h1>
+          <p>O BRINDE PERFEITO PARA TODAS AS OCASIÕES.</p>
+        </div>
+      </header>
+
+      <main className="destilados-main-content">
+        <div className="search-bar-container">
+          <input
+            type="text"
+            placeholder="Buscar por whisky, cachaça, licor..."
+            value={filtro}
+            onChange={(e) => setFiltro(e.target.value)}
+            className="destilados-search-input"
+          />
+        </div>
+        
+        <div className="category-filter-container">
+          <Swiper spaceBetween={10} slidesPerView={'auto'} grabCursor={true}>
+            {categoriasDestilados.map((categoria, index) => (
+              <SwiperSlide className="category-slide" key={index}>
+                <button
+                  className={`category-button ${categoriaFiltro === categoria ? 'active' : ''}`}
+                  onClick={() => handleCategoriaFiltro(categoria)}
+                >
+                  {categoria.replace('-', ' ')}
+                </button>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+
+        {carregando ? (
+          <p>Carregando produtos...</p>
+        ) : produtosFiltrados.length > 0 ? (
+          <div className="destilados-grid">
+            {produtosFiltrados.map((produto) => (
+              <div className="destilados-card" key={produto.id}>
+                <div className="destilados-card-image-container">
+                    <img src={produto.imagem_url} alt={produto.name} />
+                </div>
+                <div className="destilados-card-content">
+                    <h3>{produto.name}</h3>
+                    <p className="destilados-preco">
+                      R${produto.price ? produto.price.toFixed(2) : 'Indisponível'}
+                    </p>
+                    <BotaoAdicionar produto={produto} />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="nenhum-produto">Nenhum produto encontrado com os filtros atuais.</p>
+        )}
+      </main>
+    </div>
+  );
+};
+
+export default Destilados;

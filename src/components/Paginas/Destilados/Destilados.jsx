@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useCarrinho } from '../../context/CarrinhoContext';
 import supabase from '../../../supabaseClient';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useSearchParams } from 'react-router-dom'; // 1. IMPORTAÇÃO NECESSÁRIA
+import { useSearchParams } from 'react-router-dom';
 import 'swiper/css';
 import './Destilados.css';
 
@@ -34,19 +34,22 @@ const Destilados = () => {
   const [categoriaFiltro, setCategoriaFiltro] = useState('DESTILADOS');
   const [carregando, setCarregando] = useState(true);
   
-  // 2. USA O HOOK PARA LER OS PARÂMETROS DA URL
   const [searchParams] = useSearchParams();
+
+  // CORREÇÃO 1: Lemos o valor do filtro fora do useEffect
+  const filtroDaUrl = searchParams.get('filtro');
 
   const categoriasDestilados = ['DESTILADOS', 'LICOR', 'CACHAÇA', 'WHISKYS', 'ESPECIARIAS'];
 
-  // 3. ESTE USEEFFECT CORRE UMA VEZ E VERIFICA A URL
+  // CORREÇÃO 2: O useEffect agora "ouve" as mudanças no VALOR do filtro da URL
   useEffect(() => {
-    const filtroDaUrl = searchParams.get('filtro'); // Procura por '?filtro=...' na URL
     if (filtroDaUrl && categoriasDestilados.includes(filtroDaUrl)) {
-      // Se encontrou um filtro válido na URL, define-o como o filtro ativo
       setCategoriaFiltro(filtroDaUrl);
+    } else {
+      // Se não houver filtro na URL, volta para a categoria padrão
+      setCategoriaFiltro('DESTILADOS');
     }
-  }, []); // O array vazio [] garante que isto só corre uma vez
+  }, [filtroDaUrl]); // A dependência agora é o valor, não o objeto
 
   useEffect(() => {
     const fetchProdutos = async () => {
@@ -141,4 +144,3 @@ const Destilados = () => {
 };
 
 export default Destilados;
-
