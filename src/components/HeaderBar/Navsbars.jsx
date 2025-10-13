@@ -15,14 +15,13 @@ const navLinks = [
     subLinks: [
       { text: "Cervejas", to: "/cervejas" },
       { text: "Destilados", to: "/Destilados" },
-      // O link "Destilados" foi substituído pelas suas subcategorias
+      { text: "Vodkas/Gin", to: "/vodkas" },
+      { text: "Whiskys", to: "/destilados?filtro=WHISKYS" },
       { text: "Licor", to: "/destilados?filtro=LICOR" },
       { text: "Cachaça", to: "/destilados?filtro=CACHAÇA" },
-      { text: "Whiskys", to: "/destilados?filtro=WHISKYS" },
-      { text: "Especiarias", to: "/destilados?filtro=ESPECIARIAS" },
-      { text: "Vodkas/Gin", to: "/vodkas" },
       { text: "Vinhos", to: "/vinhos" },
       { text: "Espumantes", to: "/espumantes" },
+      { text: "Especiarias", to: "/destilados?filtro=ESPECIARIAS" },
       { text: "Energéticos", to: "/energeticos" },
       { text: "Água", to: "/mercearia?filtro=AGUA" },
       { text: "Refrigerante", to: "/mercearia?filtro=REFRIGERANTES" },
@@ -41,7 +40,6 @@ const navLinks = [
     ],
   },
 
-  
   { text: "PetShop", to: "/petshop" },
   { text: "Locais de Entrega", to: "/locais-de-entrega" },
   { text: "Carrinho", to: "/carrinho" },
