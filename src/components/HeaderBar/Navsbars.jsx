@@ -14,9 +14,9 @@ const navLinks = [
     isDropdown: true,
     subLinks: [
       { text: "Cervejas", to: "/cervejas" },
-      { text: "Destilados", to: "/Destilados" },
+      { text: "Alcoólicos", to: "/Destilados" },
       { text: "Vodkas/Gin", to: "/vodkas" },
-      { text: "Whiskys", to: "/destilados?filtro=WHISKYS" },
+      { text: "Whiskys/Tequilas", to: "/destilados?filtro=WHISKYS" },
       { text: "Licor", to: "/destilados?filtro=LICOR" },
       { text: "Cachaça", to: "/destilados?filtro=CACHAÇA" },
       { text: "Vinhos", to: "/vinhos" },
