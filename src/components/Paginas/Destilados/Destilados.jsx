@@ -45,9 +45,7 @@ const Destilados = () => {
   // para os nomes que o utilizador vê.
   const categoriasParaExibir = {
     DESTILADOS: "ALCOÓLICOS",
-     WHISKYS: "WHISKYS",
-     CACHAÇA: "CACHAÇA", // Nome na BD: 'DESTILADOS', Rótulo: 'ALCOÓLICOS'
-    LICOR: "LICOR",
+    
     
    
     // 'ESPECIARIAS' foi removida, como pedido.
