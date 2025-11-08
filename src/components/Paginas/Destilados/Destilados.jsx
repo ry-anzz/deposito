@@ -43,13 +43,14 @@ const Destilados = () => {
 
   // CORREÇÃO: Este é o "dicionário" que mapeia os nomes da BD
   // para os nomes que o utilizador vê.
-  const categoriasParaExibir = {
-    DESTILADOS: "ALCOÓLICOS",
-    
-    
-   
-    // 'ESPECIARIAS' foi removida, como pedido.
+
+   const categoriasParaExibir = {
+    'DESTILADOS': 'ALCOÓLICOS', // Nome na BD: 'DESTILADOS', Rótulo: 'ALCOÓLICOS'
+    'WHISKYS': 'WHISKYS',
+    'CACHAÇA': 'CACHAÇA',
+    'LICOR': 'LICOR'
   };
+
 
   // Esta é a lista de categorias que vamos buscar ao Supabase
   const categoriasRelevantes = Object.keys(categoriasParaExibir); // ['DESTILADOS', 'LICOR', 'CACHAÇA', 'WHISKYS']
