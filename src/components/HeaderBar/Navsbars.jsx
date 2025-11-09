@@ -21,7 +21,6 @@ const navLinks = [
       { text: "Cachaça", to: "/destilados?filtro=CACHAÇA" },
       { text: "Vinhos", to: "/vinhos" },
       { text: "Espumantes", to: "/espumantes" },
-      { text: "Especiarias", to: "/destilados?filtro=ESPECIARIAS" },
       { text: "Energéticos", to: "/energeticos" },
       { text: "Água", to: "/mercearia?filtro=AGUA" },
       { text: "Refrigerante", to: "/mercearia?filtro=REFRIGERANTES" },
