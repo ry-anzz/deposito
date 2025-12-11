@@ -3,7 +3,6 @@ import './Entrega.css'; // Usaremos este novo ficheiro CSS
 
 const LocaisDeEntrega = () => {
   const locais = [
-    { nome: 'Novo Cavaleiros', preco: '6,00' },
     { nome: 'Cavaleiros', preco: '10,00' },
     { nome: 'Granja dos Cavaleiros', preco: '10,00' },
     { nome: 'São Marcos', preco: '10,00' },
