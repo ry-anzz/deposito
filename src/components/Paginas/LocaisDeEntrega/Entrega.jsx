@@ -10,14 +10,17 @@ const LocaisDeEntrega = () => {
     { nome: 'Praia do Pecado', preco: '10,00' },
     { nome: 'Bairro da Glória', preco: '10,00' },
     { nome: 'Vale Encantado', preco: '10,00' },
-    { nome: 'Vale dos Cristais', preco: '10,00' },
-    { nome: 'Vale das Palmeiras', preco: '10,00' },
-    { nome: 'Mirante da lagoa', preco: '10,00' },
-    { nome: 'Imboassica', preco: '10,00' },
+    { nome: 'Vale dos Cristais', preco: '15,00' },
+    { nome: 'Vale das Palmeiras', preco: '15,00' },
+    { nome: 'Jardim Guanabara', preco: '12,00' },
+    { nome: 'Mirante da lagoa', preco: '12,00' },
+    { nome: 'Imboassica', preco: '18,00' },
     { nome: 'Guanabara', preco: '10,00' },
-    { nome: 'Costa do Sol', preco: '10,00' },
-    { nome: 'Riviera', preco: '10,00' },
-    { nome: 'Praia Campista', preco: '10,00' }
+    { nome: 'Costa do Sol', preco: '12,00' },
+    { nome: 'Glória', preco: '10,00' },
+    { nome: 'Riviera', preco: '12,00' },
+    { nome: 'Sol y Mar', preco: '12,00' },
+    { nome: 'Praia Campista', preco: '12,00' }
   ];
 
   return (
